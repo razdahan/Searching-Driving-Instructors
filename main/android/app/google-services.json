@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "796447071144",
+    "firebase_url": "https://dargu-3ad44.firebaseio.com",
+    "project_id": "dargu-3ad44",
+    "storage_bucket": "dargu-3ad44.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796447071144:android:480238599014e0e6",
+        "android_client_info": {
+          "package_name": "com.example.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796447071144-mk7anqq45na7a3hqdjehnlu9856bi1q1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQWVpus15_2178nPaba4s1yGtwMAZstjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796447071144-mk7anqq45na7a3hqdjehnlu9856bi1q1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
