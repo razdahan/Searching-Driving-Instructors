@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Home.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 class LoginPage extends StatefulWidget {
 
   @override
@@ -9,8 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String _Email, _Password;
-  final GlobalKey<FormState> _Formkey = GlobalKey<FormState>();
+  String _email, _password;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
           title: Text('Sign In'),
         ),
         body: Form(
-            key: _Formkey,
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 TextFormField(
@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
 
-                  onSaved: (input) => _Email = input,
+                  onSaved: (input) => _email = input,
                   decoration: InputDecoration(
                       labelText: 'Email'
                   ),
@@ -41,14 +41,14 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
 
-                  onSaved: (input) => _Password = input,
+                  onSaved: (input) => _password = input,
                   decoration: InputDecoration(
                       labelText: 'Password'
                   ),
                   obscureText: true,
                 ),
                 RaisedButton(
-                  onPressed:SignIn,
+                  onPressed:signIn,
                   child: Text('Sign In'),
                 )
 
@@ -58,14 +58,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> SignIn() async {
-    final _FormState=_Formkey.currentState;
-    if(_FormState.validate()){
-      _FormState.save();
+  Future<void> signIn() async {
+    final _formState=_formKey.currentState;
+    if(_formState.validate()){
+      _formState.save();
       try {
-        FirebaseUser User = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(email: _Email, password: _Password);
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Home(user:User)));
+        FirebaseUser user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Home(user:user)));
 
       }catch(e){
         print(e.message);
