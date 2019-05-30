@@ -14,16 +14,19 @@ class User{
     @required this.phone_number,
     @required this.age,
     @required this.name,
+    @required this.role
   });
   final  String name;
    final  String age;
    final String phone_number;
+   final String role;
 
   Map<String, dynamic> toJson() =>
       {
         'phone_number': phone_number,
         'age': age,
-        'name':name
+        'name':name,
+        'role':role
       };
 
   }
@@ -122,10 +125,9 @@ class _SignUpState extends State<SignUp> {
       try {
        FirebaseUser user= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
          Firestore.instance.runTransaction((transaction) async {
-          User u=new User(phone_number: _phone_number, age: _age, name: _name);
+          User u=new User(phone_number: _phone_number, age: _age, name: _name,role:'member');
            await transaction.set(Firestore.instance.collection("users").document(user.uid), u.toJson());
          });
-
         //TODO Change email
         Navigator.of(context).pop();
         Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginPage()));
