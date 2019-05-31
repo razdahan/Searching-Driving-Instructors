@@ -1,37 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Home.dart';
-import 'package:main/Pages/Setup/SignIn.dart';
 import 'package:main/Pages/Setup/Welcome.dart';
+
+
 class AddInstructor extends StatefulWidget {
   @override
   _AddInstructorState createState() => _AddInstructorState();
 }
-class DrivingInstructor{
 
-
-  const  DrivingInstructor({
-    @required this.phone_number,
-    @required this.name,
-    @required this.price,
-    @required this.test_area
-
-  });
+class DrivingInstructor {
+  const DrivingInstructor(
+      {@required this.phone_number,
+      @required this.name,
+      @required this.price,
+      @required this.test_area});
   final String test_area;
   final String price;
-  final  String name;
+  final String name;
   final String phone_number;
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'phone_number': phone_number,
-        'price':price,
-        'name':name,
-        'test_area':test_area
+        'price': price,
+        'name': name,
+        'test_area': test_area
       };
-
 }
+
 class _AddInstructorState extends State<AddInstructor> {
   String _name, _test_area, _phone_number, _price;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -52,11 +48,8 @@ class _AddInstructorState extends State<AddInstructor> {
                       return 'שם המורה חסר';
                     }
                   },
-
                   onSaved: (input) => _name = input,
-                  decoration: InputDecoration(
-                      labelText: 'שם המורה'
-                  ),
+                  decoration: InputDecoration(labelText: 'שם המורה'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -64,11 +57,8 @@ class _AddInstructorState extends State<AddInstructor> {
                       return 'אזור טסטים של המורה חסר';
                     }
                   },
-
                   onSaved: (input) => _test_area = input,
-                  decoration: InputDecoration(
-                      labelText: 'אזור טסטים'
-                  ),
+                  decoration: InputDecoration(labelText: 'אזור טסטים'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -76,11 +66,8 @@ class _AddInstructorState extends State<AddInstructor> {
                       return 'הטלפון של המורה חסר';
                     }
                   },
-
                   onSaved: (input) => _phone_number = input,
-                  decoration: InputDecoration(
-                      labelText: 'מספר טלפון'
-                  ),
+                  decoration: InputDecoration(labelText: 'מספר טלפון'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -88,22 +75,15 @@ class _AddInstructorState extends State<AddInstructor> {
                       return 'המחיר לשיעור חסר';
                     }
                   },
-
                   onSaved: (input) => _price = input,
-                  decoration: InputDecoration(
-                      labelText: 'מחיר לשיעור'
-                  ),
-
+                  decoration: InputDecoration(labelText: 'מחיר לשיעור'),
                 ),
                 RaisedButton(
                   onPressed: AddDrivingInstructor,
                   child: Text('הוספה'),
                 )
-
               ],
-            )
-        )
-    );
+            )));
   }
 
   Future<void> AddDrivingInstructor() async {
@@ -117,9 +97,8 @@ class _AddInstructorState extends State<AddInstructor> {
               name: _name,
               price: _price,
               test_area: _test_area);
-          await
-          transaction.set(
-              Firestore.instance.collection("TempDrivingInstructor").document('sadsadasda'),
+          await transaction.set(
+              Firestore.instance.collection("DrivingInstructors").document(),
               u.toJson());
         });
 

@@ -3,13 +3,15 @@ import 'package:main/Pages/Setup/SignIn.dart';
 import 'package:main/Pages/Setup/SignUp.dart';
 import 'package:main/Pages/Setup/AddInstructor.dart';
 import 'package:main/Pages/Setup/AddReview.dart';
-
+import 'package:main/Pages/Setup/ViewReview.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class Welcome extends StatefulWidget {
   @override
   _WelcomeState createState() => _WelcomeState();
 }
 
 class _WelcomeState extends State<Welcome> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +35,13 @@ class _WelcomeState extends State<Welcome> {
             child: Text('הוספת מורה נהיגה'),
           ),
           RaisedButton(
-            onPressed:(){navigateToAddRewview();},
+            onPressed:(){navigateToAddReview();},
             child: Text('הוספת ביקורת על מורה נהיגה'),
           ),
-
+          RaisedButton(
+            onPressed:(){navigateToViewReview();},
+            child: Text('ראה ביקורות'),
+          ),
         ],
       ),
     );
@@ -51,7 +56,30 @@ class _WelcomeState extends State<Welcome> {
   void navigateToAddInstructor(){
     Navigator.push(context,MaterialPageRoute(builder: (context)=>AddInstructor(),fullscreenDialog: true));
   }
-  void navigateToAddRewview(){
-    Navigator.push(context,MaterialPageRoute(builder: (context)=>AddReview(),fullscreenDialog: true));
+  void navigateToAddReview(){
+    FirebaseAuth.instance.currentUser().then((firebaseUser){
+      if(firebaseUser == null)
+      {
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>AddReview(user:null),fullscreenDialog: true));
+      }
+      else{
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>AddReview(user:firebaseUser),fullscreenDialog: true));
+      }
+    });
+
+
+
+  }
+  void navigateToViewReview(){
+    FirebaseAuth.instance.currentUser().then((firebaseUser){
+      if(firebaseUser == null)
+      {
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>ViewReview(user:null),fullscreenDialog: true));
+      }
+      else{
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>ViewReview(user:firebaseUser),fullscreenDialog: true));
+      }
+    });
+
   }
 }
