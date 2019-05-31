@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:main/Pages/Setup/SignIn.dart';
 import 'package:main/Pages/Setup/SignUp.dart';
 import 'package:main/Pages/Setup/AddInstructor.dart';
+import 'package:main/Pages/Setup/AddReview.dart';
+
 class Welcome extends StatefulWidget {
   @override
   _WelcomeState createState() => _WelcomeState();
@@ -30,6 +32,10 @@ class _WelcomeState extends State<Welcome> {
             onPressed:(){navigateToAddInstructor();},
             child: Text('הוספת מורה נהיגה'),
           ),
+          RaisedButton(
+            onPressed:(){navigateToAddRewview();},
+            child: Text('הוספת ביקורת על מורה נהיגה'),
+          ),
 
         ],
       ),
@@ -44,5 +50,8 @@ class _WelcomeState extends State<Welcome> {
   }
   void navigateToAddInstructor(){
     Navigator.push(context,MaterialPageRoute(builder: (context)=>AddInstructor(),fullscreenDialog: true));
+  }
+  void navigateToAddRewview(){
+    Navigator.push(context,MaterialPageRoute(builder: (context)=>AddReview(),fullscreenDialog: true));
   }
 }

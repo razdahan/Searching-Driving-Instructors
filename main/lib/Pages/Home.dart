@@ -30,6 +30,7 @@ class Home extends StatelessWidget {
           return LinearProgressIndicator();
         },
       ),
+
     );
   }
 
