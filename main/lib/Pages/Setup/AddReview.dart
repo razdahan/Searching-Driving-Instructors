@@ -56,6 +56,10 @@ class _AddReviewState extends State<AddReview> {
                     if (input.isEmpty) {
                       return 'שם המורה חסר';
                     }
+                    final test= doesInstructorExist(input);
+                    if(test==false){
+                      return 'לא קיים מורה נהיגה כזה';
+                    }
 
                   },
 
@@ -113,7 +117,7 @@ class _AddReviewState extends State<AddReview> {
               Text: _Text);
           await
           transaction.set(
-              Firestore.instance.collection("TempReviews").document('aaa'),
+              Firestore.instance.collection("TempReviews").document(),
               u.toJson());
         });
 
