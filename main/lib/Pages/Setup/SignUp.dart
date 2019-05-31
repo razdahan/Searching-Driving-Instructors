@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Setup/SignIn.dart';
 
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -90,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 TextFormField(
                   validator: (input) {
-                    if (input.length < 6) {
+                    if (input.isEmpty) {
                       return 'הסיסמא שלך חסרה';
                     }
                     if (input.length < 6) {
