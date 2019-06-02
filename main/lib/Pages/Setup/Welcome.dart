@@ -5,13 +5,14 @@ import 'package:main/Pages/Setup/AddInstructor.dart';
 import 'package:main/Pages/Setup/AddReview.dart';
 import 'package:main/Pages/Setup/ViewReview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:main/Pages/Setup/EditReview.dart';
+
 class Welcome extends StatefulWidget {
   @override
   _WelcomeState createState() => _WelcomeState();
 }
 
 class _WelcomeState extends State<Welcome> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,63 +24,112 @@ class _WelcomeState extends State<Welcome> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           RaisedButton(
-          onPressed:(){navigateToSignIn();},
-          child: Text('התחברות'),
+            onPressed: () {
+              navigateToSignIn();
+            },
+            child: Text('התחברות'),
           ),
           RaisedButton(
-            onPressed:(){navigateToSignUp();},
+            onPressed: () {
+              navigateToSignUp();
+            },
             child: Text('הרשמה'),
           ),
           RaisedButton(
-            onPressed:(){navigateToAddInstructor();},
+            onPressed: () {
+              navigateToAddInstructor();
+            },
             child: Text('הוספת מורה נהיגה'),
           ),
           RaisedButton(
-            onPressed:(){navigateToAddReview();},
+            onPressed: () {
+              navigateToAddReview();
+            },
             child: Text('הוספת ביקורת על מורה נהיגה'),
           ),
           RaisedButton(
-            onPressed:(){navigateToViewReview();},
+            onPressed: () {
+              navigateToViewReview();
+            },
             child: Text('ראה ביקורות'),
+          ),
+          RaisedButton(
+            onPressed: () {
+              navigateToEditReview();
+            },
+            child: Text('ערוך ביקורות'),
           ),
         ],
       ),
     );
+  }
 
+  void navigateToSignIn() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginPage(), fullscreenDialog: true));
   }
-  void navigateToSignIn(){
-    Navigator.push(context,MaterialPageRoute(builder: (context)=>LoginPage(),fullscreenDialog: true));
+
+  void navigateToSignUp() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SignUp(), fullscreenDialog: true));
   }
-  void navigateToSignUp(){
-    Navigator.push(context,MaterialPageRoute(builder: (context)=>SignUp(),fullscreenDialog: true));
+
+  void navigateToAddInstructor() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddInstructor(), fullscreenDialog: true));
   }
-  void navigateToAddInstructor(){
-    Navigator.push(context,MaterialPageRoute(builder: (context)=>AddInstructor(),fullscreenDialog: true));
-  }
-  void navigateToAddReview(){
-    FirebaseAuth.instance.currentUser().then((firebaseUser){
-      if(firebaseUser == null)
-      {
-        Navigator.push(context,MaterialPageRoute(builder: (context)=>AddReview(user:null),fullscreenDialog: true));
-      }
-      else{
-        Navigator.push(context,MaterialPageRoute(builder: (context)=>AddReview(user:firebaseUser),fullscreenDialog: true));
+
+  void navigateToAddReview() {
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+      if (firebaseUser == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddReview(user: null),
+                fullscreenDialog: true));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddReview(user: firebaseUser),
+                fullscreenDialog: true));
       }
     });
-
-
-
   }
-  void navigateToViewReview(){
-    FirebaseAuth.instance.currentUser().then((firebaseUser){
-      if(firebaseUser == null)
-      {
-        Navigator.push(context,MaterialPageRoute(builder: (context)=>ViewReview(user:null),fullscreenDialog: true));
-      }
-      else{
-        Navigator.push(context,MaterialPageRoute(builder: (context)=>ViewReview(user:firebaseUser),fullscreenDialog: true));
+
+  void navigateToEditReview() {
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+      if (firebaseUser == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditReview(user: firebaseUser),
+                fullscreenDialog: true));
       }
     });
+  }
 
+  void navigateToViewReview() {
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+      if (firebaseUser == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ViewReview(user: null),
+                fullscreenDialog: true));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ViewReview(user: firebaseUser),
+                fullscreenDialog: true));
+      }
+    });
   }
 }

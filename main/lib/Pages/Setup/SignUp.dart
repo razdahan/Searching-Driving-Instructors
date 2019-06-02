@@ -2,37 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Setup/SignIn.dart';
-
+import 'package:main/main.dart';
 
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
-class User{
 
-
-  const  User({
-    @required this.phone_number,
-    @required this.age,
-    @required this.name,
-    @required this.role
-  });
-  final  String name;
-   final  String age;
-   final String phone_number;
-   final String role;
-
-  Map<String, dynamic> toJson() =>
-      {
-        'phone_number': phone_number,
-        'age': age,
-        'name':name,
-        'role':role
-      };
-
-  }
 class _SignUpState extends State<SignUp> {
-  String _email, _password,_name,_age,_phone_number;
+  String _email, _password, _name, _age, _phone_number;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -50,11 +28,8 @@ class _SignUpState extends State<SignUp> {
                       return 'כתובת האימייל שלך חסרה';
                     }
                   },
-
                   onSaved: (input) => _email = input,
-                  decoration: InputDecoration(
-                      labelText: 'אימייל'
-                  ),
+                  decoration: InputDecoration(labelText: 'אימייל'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -62,11 +37,8 @@ class _SignUpState extends State<SignUp> {
                       return 'השם שלך חסר';
                     }
                   },
-
                   onSaved: (input) => _name = input,
-                  decoration: InputDecoration(
-                      labelText: 'שם'
-                  ),
+                  decoration: InputDecoration(labelText: 'שם'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -74,11 +46,8 @@ class _SignUpState extends State<SignUp> {
                       return 'הגיל שלך חסר';
                     }
                   },
-
                   onSaved: (input) => _age = input,
-                  decoration: InputDecoration(
-                      labelText: 'גיל'
-                  ),
+                  decoration: InputDecoration(labelText: 'גיל'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -86,11 +55,8 @@ class _SignUpState extends State<SignUp> {
                       return 'הטלפון שלך חסר';
                     }
                   },
-
                   onSaved: (input) => _phone_number = input,
-                  decoration: InputDecoration(
-                      labelText: 'מספר טלפון'
-                  ),
+                  decoration: InputDecoration(labelText: 'מספר טלפון'),
                 ),
                 TextFormField(
                   validator: (input) {
@@ -101,43 +67,41 @@ class _SignUpState extends State<SignUp> {
                       return 'Please Type Password more then 6 Characters';
                     }
                   },
-
                   onSaved: (input) => _password = input,
-                  decoration: InputDecoration(
-                      labelText: 'סיסמא'
-                  ),
+                  decoration: InputDecoration(labelText: 'סיסמא'),
                   obscureText: true,
                 ),
                 RaisedButton(
-                  onPressed:signUp,
+                  onPressed: signUp,
                   child: Text('הרשמה'),
                 )
-
               ],
-            )
-        )
-    );
+            )));
   }
-  Future<void> signUp() async {
 
-    final _formState=_formKey.currentState;
-    if(_formState.validate()){
+  Future<void> signUp() async {
+    final _formState = _formKey.currentState;
+    if (_formState.validate()) {
       _formState.save();
       try {
-       FirebaseUser user= await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
-         Firestore.instance.runTransaction((transaction) async {
-          User u=new User(phone_number: _phone_number, age: _age, name: _name,role:'member');
-           await transaction.set(Firestore.instance.collection("users").document(user.uid), u.toJson());
-         });
-        //TODO Change email
+        FirebaseUser user = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: _email, password: _password);
+        Firestore.instance.runTransaction((transaction) async {
+          User u = new User(
+              phone_number: _phone_number,
+              age: _age,
+              name: _name,
+              role: 'member');
+          await transaction.set(
+              Firestore.instance.collection("users").document(user.uid),
+              u.toJson());
+        });
         Navigator.of(context).pop();
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>LoginPage()));
-      }catch(e){
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => LoginPage()));
+      } catch (e) {
         print(e.message);
       }
-
     }
-
-    //TODO Connect Firebase
   }
 }

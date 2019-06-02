@@ -2,31 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Setup/Welcome.dart';
-
-
+import 'package:main/main.dart';
 class AddInstructor extends StatefulWidget {
   @override
   _AddInstructorState createState() => _AddInstructorState();
 }
 
-class DrivingInstructor {
-  const DrivingInstructor(
-      {@required this.phone_number,
-      @required this.name,
-      @required this.price,
-      @required this.test_area});
-  final String test_area;
-  final String price;
-  final String name;
-  final String phone_number;
 
-  Map<String, dynamic> toJson() => {
-        'phone_number': phone_number,
-        'price': price,
-        'name': name,
-        'test_area': test_area
-      };
-}
 
 class _AddInstructorState extends State<AddInstructor> {
   String _name, _test_area, _phone_number, _price;

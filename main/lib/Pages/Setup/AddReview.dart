@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Setup/Welcome.dart';
 import 'package:main/main.dart';
+
 class AddReview extends StatefulWidget {
   @override
   _AddReviewState createState() => _AddReviewState();
@@ -10,8 +11,6 @@ class AddReview extends StatefulWidget {
   const AddReview({Key key, this.user}) : super(key: key);
   final FirebaseUser user;
 }
-
-
 
 class _AddReviewState extends State<AddReview> {
   String _InstructorName, _Text;
@@ -34,8 +33,8 @@ class _AddReviewState extends State<AddReview> {
                     if (input.isEmpty) {
                       return 'שם המורה חסר';
                     }
-                    if(InstructorNameValidator==false)
-                        return "לא קיים כזה מורה כפרה";
+                    if (InstructorNameValidator == false)
+                      return "לא קיים כזה מורה כפרה";
                   },
                   onSaved: (input) => _InstructorName = input,
                   decoration: InputDecoration(labelText: 'שם המורה'),
@@ -63,16 +62,16 @@ class _AddReviewState extends State<AddReview> {
                   onPressed: () async {
                     final _formState = _formKey.currentState;
                     _formState.save();
-                  var response = await doesInstructorExist(_InstructorName);
+                    var response = await doesInstructorExist(_InstructorName);
 
-                  setState(() {
-                  this.InstructorNameValidator = response;
-                  });
+                    setState(() {
+                      this.InstructorNameValidator = response;
+                    });
 
-                  if (_formKey.currentState.validate()) {
-                    AddReview();
-                  }
-                },
+                    if (_formKey.currentState.validate()) {
+                      AddReview();
+                    }
+                  },
                   child: Text('הוספה'),
                 )
               ],
@@ -84,15 +83,16 @@ class _AddReviewState extends State<AddReview> {
     if (_formState.validate()) {
       _formState.save();
       try {
-
-        final DocumentSnapshot result = await Firestore.instance
-            .collection('users').document(widget.user.uid).get();
-
-          String username="";
-          if(result!=null)
-            username=result.data['name'];
-          else
-            username="Anonymos";
+        String username = "";
+        if(widget.user!=null) {
+          final DocumentSnapshot result = await Firestore.instance
+              .collection('users')
+              .document(widget.user.uid)
+              .get();
+          username = result.data['name'];
+        }
+        else
+          username = "Anonymos";
 
         Firestore.instance.runTransaction((transaction) async {
           Review u = new Review(
@@ -101,16 +101,15 @@ class _AddReviewState extends State<AddReview> {
               Rating: _Rating,
               Text: _Text);
           await transaction.set(
-              Firestore.instance.collection("Reviews").document(),
-              u.toJson());
+              Firestore.instance.collection("Reviews").document(), u.toJson());
         });
 
-        //TODO Change email
+
         Navigator.of(context).pop();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Welcome()));
       } catch (e) {
-        print(e.message);
+        print(e);
       }
     }
   }
@@ -119,11 +118,12 @@ class _AddReviewState extends State<AddReview> {
     print(name);
     final QuerySnapshot result = await Firestore.instance
         .collection('DrivingInstructors')
-        .where('name', isEqualTo: name).limit(1).getDocuments();
+        .where('name', isEqualTo: name)
+        .limit(1)
+        .getDocuments();
 
     final List<DocumentSnapshot> documents = result.documents;
 
-   return documents.length==1;
-
+    return documents.length == 1;
   }
 }

@@ -116,9 +116,10 @@ class _ViewReviewState extends State<ViewReview> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => InstructorProfile(user: null),
+                builder: (context) => InstructorProfile(user: null,Instructor: Instructor,),
                 fullscreenDialog: true));
       } else {
+
         Navigator.push(
             context,
             MaterialPageRoute(

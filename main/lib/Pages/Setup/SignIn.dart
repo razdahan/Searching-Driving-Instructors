@@ -62,7 +62,5 @@ class _LoginPageState extends State<LoginPage> {
         print(e.message);
       }
     }
-
-    //TODO Connect Firebase
   }
 }

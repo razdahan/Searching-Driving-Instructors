@@ -9,6 +9,13 @@
             </list>
           </value>
         </entry>
+        <entry key="autocomplete_textfield">
+          <value>
+            <list>
+              <option value="C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/autocomplete_textfield-1.6.6/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="boolean_selector">
           <value>
             <list>
@@ -181,6 +188,7 @@
     </properties>
     <CLASSES>
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.1.0/lib" />
+      <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/autocomplete_textfield-1.6.6/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-1.0.4/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/charcode-1.1.2/lib" />
       <root url="file://C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-0.12.1/lib" />
