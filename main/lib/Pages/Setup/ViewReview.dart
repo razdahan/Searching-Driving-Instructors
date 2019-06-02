@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Home.dart';
-import 'package:main/Pages/Setup/SignIn.dart';
-import 'package:main/Pages/Setup/Welcome.dart';
+import 'package:main/Pages/Setup/InstructorProfile.dart';
 import "package:autocomplete_textfield/autocomplete_textfield.dart";
+import 'package:main/main.dart';
 class ViewReview extends StatefulWidget {
   @override
   _ViewReviewState createState() => _ViewReviewState();
@@ -13,127 +12,119 @@ class ViewReview extends StatefulWidget {
   final FirebaseUser user;
 }
 
-class Review {
-  const Review(
-      {@required this.InstructorName,
-        @required this.AuthornName,
-        @required this.Text,
-        @required this.Rating});
 
-  final String InstructorName;
-  final String AuthornName;
-  final String Text;
-  final int Rating;
-
-  Map<String, dynamic> toJson() => {
-    'InstructorName': InstructorName,
-    'AuthornName': AuthornName,
-    'text': Text,
-    'rating': Rating
-  };
-}
 
 class _ViewReviewState extends State<ViewReview> {
-  String _InstructorName, _AuthornName, _Text;
+  AutoCompleteTextField search;
+  GlobalKey<AutoCompleteTextFieldState<DrivingInstructor>> key = new GlobalKey();
   bool InstructorNameValidator;
-  int _Rating;
+  static List<DrivingInstructor> Inst = new List<DrivingInstructor>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool loading = true;
+
+
+
+  void getInstructors() async {
+    final QuerySnapshot result = await Firestore.instance
+        .collection('DrivingInstructors')
+        .getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    Inst = new List<DrivingInstructor>();
+
+    for (int i = 0; i < documents.length; i++) {
+      DrivingInstructor d = new DrivingInstructor(
+          phone_number: documents[i].data['phone_number'],
+          name: documents[i].data['name'],
+          price: documents[i].data['price'],
+          test_area: documents[i].data['test_area']);
+
+      Inst.add(d);
+    }
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getInstructors();
+  }
+
+  Widget row(DrivingInstructor d) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            d.name,
+            style: TextStyle(fontSize: 16.0),
+          ),
+          Padding(
+            padding: EdgeInsets.all(15.0),
+          ),
+          Text(
+            d.test_area,
+          )
+        ]);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('הוספת ביקורת'),
+          title: Text('חפש ביקורות על מורה'),
         ),
         body: Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'שם המורה חסר';
-                    }
-                    if(InstructorNameValidator==false)
-                      return "לא קיים כזה מורה כפרה";
-                  },
-                  onSaved: (input) => _InstructorName = input,
-                  decoration: InputDecoration(labelText: 'שם המורה'),
-                ),
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'דירוג חסר';
-                    }
-                  },
-                  onSaved: (input) => _Rating = int.parse(input),
-                  decoration: InputDecoration(labelText: 'דירוג'),
-                ),
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'חסרה חוות דעת על המורה';
-                    }
-                  },
-                  onSaved: (input) => _Text = input,
-                  decoration: InputDecoration(
-                      labelText: 'חוות דעת על המורה בכמה מילים'),
-                ),
-                RaisedButton(
-                  onPressed: () async {
-                    final _formState = _formKey.currentState;
-                    _formState.save();
-                    var response = await doesInstructorExist(_InstructorName);
-
-                    setState(() {
-                      this.InstructorNameValidator = response;
-                    });
-
-                    if (_formKey.currentState.validate()) {
-                      AddReview();
-                    }
-                  },
-                  child: Text('הוספה'),
-                )
+                loading
+                    ? LinearProgressIndicator()
+                    : search = AutoCompleteTextField<DrivingInstructor>(
+                        clearOnSubmit: false,
+                        key: key,
+                        suggestions: Inst,
+                        style: TextStyle(color: Colors.black, fontSize: 16.0),
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
+                          hintText: "חפש מורה",
+                          hintStyle: TextStyle(color: Colors.black),
+                        ),
+                        itemFilter: (item, query) {
+                          return item.name.startsWith(query);
+                        },
+                        itemSorter: (a, b) {
+                          return a.name.compareTo(b.name);
+                        },
+                        itemSubmitted: (item) {
+                          setState(() {
+                            search.textField.controller.text = item.name;
+                            navigateToInstructorProfile(item);
+                          });
+                        },
+                        itemBuilder: (context, item) {
+                          return row(item);
+                        },
+                      )
               ],
             )));
   }
 
-  Future<void> AddReview() async {
-    final _formState = _formKey.currentState;
-    if (_formState.validate()) {
-      _formState.save();
-      try {
-        Firestore.instance.runTransaction((transaction) async {
-          Review u = new Review(
-              InstructorName: _InstructorName,
-              AuthornName: 'anonymous',
-              Rating: _Rating,
-              Text: _Text);
-          await transaction.set(
-              Firestore.instance.collection("Reviews").document(),
-              u.toJson());
-        });
-
-        //TODO Change email
-        Navigator.of(context).pop();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Welcome()));
-      } catch (e) {
-        print(e.message);
+  void navigateToInstructorProfile(DrivingInstructor Instructor) {
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+      if (firebaseUser == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => InstructorProfile(user: null),
+                fullscreenDialog: true));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => InstructorProfile(user: firebaseUser,Instructor: Instructor,),
+                fullscreenDialog: true));
       }
-    }
-  }
-
-  Future<bool> doesInstructorExist(String name) async {
-    print(name);
-    final QuerySnapshot result = await Firestore.instance
-        .collection('DrivingInstructors')
-        .where('name', isEqualTo: name).limit(1).getDocuments();
-
-    final List<DocumentSnapshot> documents = result.documents;
-    print( documents[0].data['name']);
-    return documents.length==1;
-
+    });
   }
 }

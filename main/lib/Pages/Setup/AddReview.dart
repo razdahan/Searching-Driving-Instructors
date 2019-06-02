@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Home.dart';
-import 'package:main/Pages/Setup/SignIn.dart';
 import 'package:main/Pages/Setup/Welcome.dart';
-import "package:autocomplete_textfield/autocomplete_textfield.dart";
+import 'package:main/main.dart';
 class AddReview extends StatefulWidget {
   @override
   _AddReviewState createState() => _AddReviewState();
@@ -13,28 +11,10 @@ class AddReview extends StatefulWidget {
   final FirebaseUser user;
 }
 
-class Review {
-  const Review(
-      {@required this.InstructorName,
-      @required this.AuthornName,
-      @required this.Text,
-      @required this.Rating});
 
-  final String InstructorName;
-  final String AuthornName;
-  final String Text;
-  final int Rating;
-
-  Map<String, dynamic> toJson() => {
-        'InstructorName': InstructorName,
-        'AuthornName': AuthornName,
-        'text': Text,
-        'rating': Rating
-      };
-}
 
 class _AddReviewState extends State<AddReview> {
-  String _InstructorName, _AuthornName, _Text;
+  String _InstructorName, _Text;
   bool InstructorNameValidator;
   int _Rating;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -117,7 +97,7 @@ class _AddReviewState extends State<AddReview> {
         Firestore.instance.runTransaction((transaction) async {
           Review u = new Review(
               InstructorName: _InstructorName,
-              AuthornName: username,
+              AuthorName: username,
               Rating: _Rating,
               Text: _Text);
           await transaction.set(
@@ -142,7 +122,7 @@ class _AddReviewState extends State<AddReview> {
         .where('name', isEqualTo: name).limit(1).getDocuments();
 
     final List<DocumentSnapshot> documents = result.documents;
-    print( documents[0].data['name']);
+
    return documents.length==1;
 
   }
