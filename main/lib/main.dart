@@ -83,7 +83,7 @@ class Myapp extends StatefulWidget {
 
 class _MyappState extends State<Myapp> {
   FirebaseUser user;
-  String name;
+  User u;
   bool loading = true;
 
   void getUser() async {
@@ -91,12 +91,13 @@ class _MyappState extends State<Myapp> {
     if (user != null) {
       final DocumentSnapshot result =
       await Firestore.instance.collection('users').document(user.uid).get();
-      name = result.data['name'];
+      User u=new User(phone_number: result.data['phone_number'], age: result.data['age'], name: result.data['name'], role: result.data['role'], email: result.data['email']);
+      this.u=u;
     }
     setState(() {
       loading = false;
     });
-    print(name);
+    print(u.name);
   }
 
   @override
@@ -113,28 +114,27 @@ class _MyappState extends State<Myapp> {
             ? MaterialApp(
                 home: Home(
                 user: user,
-                  name: name,
+                  userData: u,
               ))
             : MaterialApp(
                 debugShowCheckedModeBanner: true,
                 theme: ThemeData(
                   fontFamily: 'Cour',
                 ),
-                home: MyHomePage(user: user, username: name),
+                home: MyHomePage(user: user),
               );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key key, this.user, this.username}) : super(key: key);
+  const MyHomePage({Key key, this.user}) : super(key: key);
   final FirebaseUser user;
-  final String username;
+
 
   @override
   Widget build(BuildContext context) {
-    print(username);
     return new Scaffold(
-        resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: new BoxDecoration(
             gradient: new LinearGradient(

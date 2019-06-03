@@ -8,113 +8,160 @@ class AddReview extends StatefulWidget {
   @override
   _AddReviewState createState() => _AddReviewState();
 
-  const AddReview({Key key, this.user}) : super(key: key);
+  const AddReview({Key key, this.user,this.instructor}) : super(key: key);
   final FirebaseUser user;
+  final DrivingInstructor instructor;
 }
 
 class _AddReviewState extends State<AddReview> {
-  String _InstructorName, _Text;
+  String _text,_rating;
   bool InstructorNameValidator;
-  int _Rating;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('הוספת ביקורת'),
+    return new Theme(
+        data: new ThemeData(
+          fontFamily: 'cour',
+          hintColor: Colors.white,
+          primaryColor: Colors.white,
+          primaryColorDark: Colors.white,
         ),
-        body: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'שם המורה חסר';
-                    }
-                    if (InstructorNameValidator == false)
-                      return "לא קיים כזה מורה כפרה";
-                  },
-                  onSaved: (input) => _InstructorName = input,
-                  decoration: InputDecoration(labelText: 'שם המורה'),
-                ),
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'דירוג חסר';
-                    }
-                  },
-                  onSaved: (input) => _Rating = int.parse(input),
-                  decoration: InputDecoration(labelText: 'דירוג'),
-                ),
-                TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) {
-                      return 'חסרה חוות דעת על המורה';
-                    }
-                  },
-                  onSaved: (input) => _Text = input,
-                  decoration: InputDecoration(
-                      labelText: 'חוות דעת על המורה בכמה מילים'),
-                ),
-                RaisedButton(
-                  onPressed: () async {
-                    final _formState = _formKey.currentState;
-                    _formState.save();
-                    var response = await doesInstructorExist(_InstructorName);
+        child: Scaffold(
+            resizeToAvoidBottomPadding: false,
+            appBar: AppBar(
+              elevation: 0.0,
+              title: Text('הוספת ביקורת', style: new TextStyle(color: Colors.white)),
+              backgroundColor: HexColor("#51C5EF"),
+              centerTitle: true,
+              iconTheme: IconThemeData(
+                color: Colors.white, //change your color here
+              ),
+            ),
+            body: Container(
+                decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                      colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                      begin: FractionalOffset.bottomCenter,
+                      end: FractionalOffset.topCenter,
+                    )),
+                child: Form(
+                    key: _formKey,
+                    child: ListView(
+                      children: <Widget>[
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "דירוג",
+                                    labelStyle:
+                                    new TextStyle(color: Colors.white),
+                                    fillColor: Colors.white,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'חסר הדירוג';
+                                    }
+                                  },
+                                  onSaved: (input) => _rating = input,
+                                ))),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "ביקורת בכמה מילים",
+                                    labelStyle:
+                                    new TextStyle(color: Colors.white),
+                                    fillColor: Colors.white,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                      BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return ' חסרה ביקורת קצרה';
+                                    }
+                                  },
+                                  onSaved: (input) => _text = input,
 
-                    setState(() {
-                      this.InstructorNameValidator = response;
-                    });
+                                ))),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 100.0, right: 100.0, top: 70.0),
+                                  child:Card(
+                                    elevation: 15,
+                                    child: GestureDetector(
+                                      onTap: addReview,
+                                      child: new Container(
+                                          alignment: Alignment.center,
+                                          height: 40.0,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                            new BorderRadius.circular(9.0),
 
-                    if (_formKey.currentState.validate()) {
-                      AddReview();
-                    }
-                  },
-                  child: Text('הוספה'),
-                )
-              ],
-            )));
+                                          ),
+                                          child: new Text("הוסף ביקורת",
+                                              style: new TextStyle(
+                                                  fontSize:
+                                                  15.0,
+                                                  color: Colors.black))),
+                                    ),
+                                  )),
+                            )
+                          ],
+                        ),
+                      ],
+                    )))));
   }
 
-  Future<void> AddReview() async {
+  Future<void> addReview() async {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
       try {
         String username = "";
         if(widget.user!=null) {
-          final DocumentSnapshot result = await Firestore.instance
-              .collection('users')
-              .document(widget.user.uid)
-              .get();
-          username = result.data['name'];
+          username=widget.instructor.name;
         }
         else
           username = "Anonymos";
 
         Firestore.instance.runTransaction((transaction) async {
           Review u = new Review(
-              InstructorName: _InstructorName,
+              InstructorName:username,
               AuthorName: username,
-              Rating: _Rating,
-              Text: _Text);
+              Rating: int.parse(_rating),
+              Text: _text);
           await transaction.set(
               Firestore.instance.collection("Reviews").document(), u.toJson());
         });
 
 
         Navigator.of(context).pop();
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Welcome()));
+        Navigator.pop(
+            context);
       } catch (e) {
         print(e);
       }
     }
   }
 
-  Future<bool> doesInstructorExist(String name) async {
+  /**Future<bool> doesInstructorExist(String name) async {
     print(name);
     final QuerySnapshot result = await Firestore.instance
         .collection('DrivingInstructors')
@@ -126,4 +173,5 @@ class _AddReviewState extends State<AddReview> {
 
     return documents.length == 1;
   }
+      **/
 }

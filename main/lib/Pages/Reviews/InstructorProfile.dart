@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' as prefix0;
 import 'package:main/main.dart';
-
+import 'package:main/Pages/Reviews/AddReview.dart';
 class InstructorProfile extends StatefulWidget {
   @override
   _InstructorProfileState createState() => _InstructorProfileState();
@@ -67,6 +67,13 @@ class _InstructorProfileState extends State<InstructorProfile> {
         primaryColorDark: Colors.white,
     ),
     child:Scaffold(
+        floatingActionButton: prefix0.FloatingActionButton(
+          child:Icon(Icons.add),
+          onPressed: (){
+            navigateToAddReview(context);
+
+          },
+        ),
         appBar: AppBar(
           title: Text(widget.Instructor.name, style: new TextStyle(color: Colors.white)),
           backgroundColor:HexColor("#51C5EF"),
@@ -89,5 +96,23 @@ class _InstructorProfileState extends State<InstructorProfile> {
 
                 children: reviews,
               ))));
+  }
+
+  void navigateToAddReview(BuildContext context) {
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+      if (firebaseUser == null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddReview(user: null),
+                fullscreenDialog: true));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddReview(user: firebaseUser,instructor:widget.Instructor,),
+                fullscreenDialog: true));
+      }
+    });
   }
 }

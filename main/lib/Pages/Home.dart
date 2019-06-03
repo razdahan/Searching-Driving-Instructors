@@ -7,16 +7,23 @@ import 'package:main/Pages/Instructor/AddInstructor.dart';
 import 'package:main/main.dart';
 
 class Home extends StatelessWidget {
-  const Home({Key key, this.user, this.name}) : super(key: key);
+  const Home({Key key, this.user, this.userData}) : super(key: key);
   final FirebaseUser user;
-  final String name;
+  final User userData;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Theme(
+        data: new ThemeData(
+        fontFamily: 'cour',
+        hintColor: Colors.white,
+        primaryColor: Colors.white,
+        primaryColorDark: Colors.white,
+    ),
+    child:Scaffold(
         appBar: AppBar(
           title:
-              Text("  ${name} שלום", style: new TextStyle(color: Colors.white)),
+              Text("  ${userData.name} שלום", style: new TextStyle(color: Colors.white)),
           backgroundColor: HexColor("#51C5EF"),
           elevation: 0,
           centerTitle: true,
@@ -41,13 +48,28 @@ class Home extends StatelessWidget {
                         children: <Widget>[
                           GestureDetector(
                               onTap: () {
-                                navigateToViewReview(context);
+                                navigateToAddInstructor(context);
                               },
                               child: Card(
                                   elevation: 5.0,
-                                  child: new Center(
-                                    child: new Text('חפש ביקורות '),
-                                  ))),
+                                  child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Center(
+
+                                          child: Icon(
+                                            Icons.plus_one,
+                                            color: Colors.green,
+                                            size: 60.0,
+                                          ),
+
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 25.0),
+                                            child: Text('הוסף מורה',style: TextStyle(fontSize: 18,fontWeight:FontWeight.w800),))
+                                      ]))),
                           GestureDetector(
                               onTap: () {
                                 navigateToViewReview(context);
@@ -70,11 +92,11 @@ class Home extends StatelessWidget {
                                         Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 25.0),
-                                            child: Text('חפש מורה',style: TextStyle(fontSize: 18,fontWeight:FontWeight.w900),))
+                                            child: Text('חפש מורה',style: TextStyle(fontSize: 18,fontWeight:FontWeight.w800),))
                                       ]))),
                           GestureDetector(
                               onTap: () {
-                                navigateToAddReview(context);
+
                                 print("add reviews");
                               },
                               child: Card(
@@ -94,9 +116,9 @@ class Home extends StatelessWidget {
                               child: Card(
                                   elevation: 5.0,
                                   child: new Center(
-                                    child: new Text('התנתק '),
+                                    child: new Text('התנתק'),
                                   ))),
-                        ])))));
+                        ]))))));
   }
 
   Center checkRole(DocumentSnapshot snapshot) {
@@ -143,23 +165,6 @@ class Home extends StatelessWidget {
     });
   }
 
-  void navigateToAddReview(BuildContext context) {
-    FirebaseAuth.instance.currentUser().then((firebaseUser) {
-      if (firebaseUser == null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddReview(user: null),
-                fullscreenDialog: true));
-      } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddReview(user: firebaseUser),
-                fullscreenDialog: true));
-      }
-    });
-  }
 
   void navigateToAddInstructor(BuildContext context) {
     FirebaseAuth.instance.currentUser().then((firebaseUser) {
@@ -167,13 +172,13 @@ class Home extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AddInstructor(user: null),
+                builder: (context) => AddInstructor(user: null,userData: null,),
                 fullscreenDialog: true));
       } else {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => AddInstructor(user: firebaseUser),
+                builder: (context) => AddInstructor(user: firebaseUser,userData: userData,),
                 fullscreenDialog: true));
       }
     });

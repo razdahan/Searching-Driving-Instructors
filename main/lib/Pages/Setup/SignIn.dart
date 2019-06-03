@@ -134,11 +134,13 @@ class _LoginPageState extends State<LoginPage> {
             .collection('users')
             .document(user.uid)
             .get();
-        String name = result.data['name'];
-        Navigator.pushReplacement(
+
+      User u=new User(phone_number: result.data['phone_number'], age: result.data['age'], name: result.data['name'], role: result.data['role'], email: result.data['email']);
+
+      Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => Home(user: user, name: name)));
+                builder: (context) => Home(user: user,userData: u,)));
 
     }
   }
