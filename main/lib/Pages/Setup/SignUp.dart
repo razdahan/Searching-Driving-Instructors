@@ -15,164 +15,173 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('הרשמה', style: new TextStyle(color: Colors.black)),
-          backgroundColor: Colors.lightBlue,
-          centerTitle: true,
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
-          ),
+    return new Theme(
+        data: new ThemeData(
+          fontFamily: 'cour',
+          hintColor: Colors.white,
+          primaryColor: Colors.white,
+          primaryColorDark: Colors.white,
         ),
-        body: Container(
-            decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-              colors: [Colors.white, Colors.lightBlue],
-              begin: FractionalOffset.bottomCenter,
-              end: FractionalOffset.topCenter,
-            )),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "כתובת האימייל",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(
-                                      color: Colors.white, width: 1),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'כתובת האימייל שלך חסרה';
-                                }
-                              },
-                              onSaved: (input) => _email = input,
-                            ))),
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "שם",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(width: 1),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'השם שלך חסר';
-                                }
-                              },
-                              onSaved: (input) => _name = input,
-                            ))),
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "גיל",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(width: 1),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'הגיל שלך חסר';
-                                }
-                              },
-                              onSaved: (input) => _age = input,
-                            ))),
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "מספר טלפון",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(width: 1),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'הטלפון שלך חסר';
-                                }
-                              },
-                              onSaved: (input) => _phone_number = input,
-                            ))),
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "סיסמא",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(width: 1),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'הסיסמא שלך חסרה';
-                                }
-                                if (input.length < 6) {
-                                  return 'אורך הסיסמא חייב להיות גדול יותר משישה תווים';
-                                }
-                              },
-                              onSaved: (input) => _password = input,
-                              obscureText: true,
-                            ))),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('הרשמה', style: new TextStyle(fontSize:25,color: Colors.white)),
+              backgroundColor: HexColor("#51C5EF"),
+              centerTitle: true,
+              elevation: 0,
+              iconTheme: IconThemeData(
+                color: Colors.white, //change your color here
+              ),
+            ),
+            body: Container(
+                decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                  begin: FractionalOffset.bottomCenter,
+                  end: FractionalOffset.topCenter,
+                )),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
                       children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 100.0, right: 100.0, top: 50.0),
-                            child: GestureDetector(
-                              onTap: signUp,
-                              child: new Container(
-                                  alignment: Alignment.center,
-                                  height: 40.0,
-                                  decoration: new BoxDecoration(
-                                    borderRadius:
-                                        new BorderRadius.circular(9.0),
-                                    border: Border.all(width: 1),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "כתובת האימייל",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
                                   ),
-                                  child: new Text("הרשמה",
-                                      style: new TextStyle(
-                                          fontSize: 20.0,
-                                          color: Colors.black))),
-                            ),
-                          ),
-                        )
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'כתובת האימייל שלך חסרה';
+                                    }
+                                  },
+                                  onSaved: (input) => _email = input,
+                                ))),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "שם",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'השם שלך חסר';
+                                    }
+                                  },
+                                  onSaved: (input) => _name = input,
+                                ))),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "גיל",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'הגיל שלך חסר';
+                                    }
+                                  },
+                                  onSaved: (input) => _age = input,
+                                ))),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "מספר טלפון",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'הטלפון שלך חסר';
+                                    }
+                                  },
+                                  onSaved: (input) => _phone_number = input,
+                                ))),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: const EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "סיסמא",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'הסיסמא שלך חסרה';
+                                    }
+                                    if (input.length < 6) {
+                                      return 'אורך הסיסמא חייב להיות גדול יותר משישה תווים';
+                                    }
+                                  },
+                                  onSaved: (input) => _password = input,
+                                  obscureText: true,
+                                ))),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 100.0, right: 100.0, top: 100.0),
+                                  child: Card(
+                                    elevation: 15,
+                                    child: GestureDetector(
+                                      onTap: signUp,
+                                      child: new Container(
+                                          alignment: Alignment.center,
+                                          height: 40.0,
+                                          decoration: new BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                new BorderRadius.circular(9.0),
+                                          ),
+                                          child: new Text("הרשמה",
+                                              style: new TextStyle(
+                                                  fontSize: 15.0,
+                                                  color: Colors.black))),
+                                    ),
+                                  )),
+                            )
+                          ],
+                        ),
                       ],
-                    ),
-                  ],
-                ))));
+                    )))));
   }
 
   Future<void> signUp() async {
@@ -187,7 +196,8 @@ class _SignUpState extends State<SignUp> {
               phone_number: _phone_number,
               age: _age,
               name: _name,
-              role: 'member');
+              role: 'member',
+              email: _email);
           await transaction.set(
               Firestore.instance.collection("users").document(user.uid),
               u.toJson());

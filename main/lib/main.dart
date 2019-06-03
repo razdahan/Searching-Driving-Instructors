@@ -7,6 +7,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() => runApp(Myapp());
 
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}
+
 class Review {
   const Review(
       {@required this.InstructorName,
@@ -52,15 +64,16 @@ class User {
       {@required this.phone_number,
       @required this.age,
       @required this.name,
-      @required this.role});
-
+      @required this.role,
+      @required this.email});
+  final String email;
   final String name;
   final String age;
   final String phone_number;
   final String role;
 
   Map<String, dynamic> toJson() =>
-      {'phone_number': phone_number, 'age': age, 'name': name, 'role': role};
+      {'phone_number': phone_number, 'age': age, 'name': name, 'role': role ,'email':email};
 }
 
 class Myapp extends StatefulWidget {
@@ -77,7 +90,7 @@ class _MyappState extends State<Myapp> {
     user = await FirebaseAuth.instance.currentUser();
     if (user != null) {
       final DocumentSnapshot result =
-          await Firestore.instance.collection('users').document(user.uid).get();
+      await Firestore.instance.collection('users').document(user.uid).get();
       name = result.data['name'];
     }
     setState(() {
@@ -90,7 +103,8 @@ class _MyappState extends State<Myapp> {
   void initState() {
     getUser();
   }
-
+//TODO- ADD child: Card(
+//                  elevation: 5.0,
   @override
   Widget build(BuildContext context) {
     return loading
@@ -99,11 +113,12 @@ class _MyappState extends State<Myapp> {
             ? MaterialApp(
                 home: Home(
                 user: user,
+                  name: name,
               ))
             : MaterialApp(
                 debugShowCheckedModeBanner: false,
                 theme: ThemeData(
-                  fontFamily: 'carilio',
+                  fontFamily: 'Cour',
                 ),
                 home: MyHomePage(user: user, username: name),
               );
@@ -122,10 +137,10 @@ class MyHomePage extends StatelessWidget {
       body: Container(
         decoration: new BoxDecoration(
             gradient: new LinearGradient(
-          colors: [Colors.white, Colors.lightBlue],
-          begin: FractionalOffset.bottomCenter,
-          end: FractionalOffset.topCenter,
-        )),
+              colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+              begin: FractionalOffset.bottomCenter,
+              end: FractionalOffset.topCenter,
+            )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -135,7 +150,9 @@ class MyHomePage extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 100.0, right: 100.0, top: 300.0),
+                        left: 100.0, right: 100.0, top: 200.0),
+                    child: Card(
+                      elevation: 15.0,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -153,7 +170,7 @@ class MyHomePage extends StatelessWidget {
                           child: new Text("התחברות",
                               style: new TextStyle(
                                   fontSize: 20.0, color: Colors.black))),
-                    ),
+                    ),)
                   ),
                 )
               ],
@@ -164,7 +181,9 @@ class MyHomePage extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 100.0, right: 100.0, top: 10.0),
+                        left: 100.0, right: 100.0, top: 30.0),
+                    child: Card(
+                      elevation: 15.0,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -183,7 +202,7 @@ class MyHomePage extends StatelessWidget {
                               style: new TextStyle(
                                   fontSize: 20.0, color: Colors.black))),
                     ),
-                  ),
+                  )),
                 )
               ],
             ),

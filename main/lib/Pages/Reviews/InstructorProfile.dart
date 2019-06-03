@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart' ;
+import 'package:flutter/material.dart' as prefix0;
 import 'package:main/main.dart';
 
 class InstructorProfile extends StatefulWidget {
   @override
   _InstructorProfileState createState() => _InstructorProfileState();
+
   const InstructorProfile({Key key, this.user, this.Instructor})
       : super(key: key);
   final FirebaseUser user;
@@ -14,20 +15,19 @@ class InstructorProfile extends StatefulWidget {
 }
 
 class _InstructorProfileState extends State<InstructorProfile> {
-  List<Text> reviews = new List<Text>();
+  List<ListTile> reviews = new List<ListTile>();
   List<TextEditingController> controllers = new List<TextEditingController>();
 
   bool loading = true;
 
   void getInstructors() async {
-
     final QuerySnapshot result = await Firestore.instance
         .collection('Reviews')
         .where('InstructorName', isEqualTo: widget.Instructor.name)
         .getDocuments();
 
     final List<DocumentSnapshot> documents = result.documents;
-    reviews = new List<Text>();
+    reviews = new List<ListTile>();
     print(widget.Instructor.name);
     for (int i = 0; i < documents.length; i++) {
       Review r = new Review(
@@ -39,7 +39,13 @@ class _InstructorProfileState extends State<InstructorProfile> {
 
       var textEditingController = new TextEditingController(text: r.Text);
       controllers.add(textEditingController);
-      reviews.add(new Text(r.Text));
+      reviews.add(new ListTile(
+          trailing: Icon(Icons.rate_review),
+          leading: new Text(r.Rating.toString() + "  דירוג"),
+          title: new Directionality(
+              textDirection: TextDirection.rtl, child: Text(r.AuthorName)),
+          subtitle: new Directionality(
+              textDirection: TextDirection.rtl, child: Text(r.Text))));
     }
     setState(() {
       loading = false;
@@ -55,13 +61,25 @@ class _InstructorProfileState extends State<InstructorProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.Instructor.name),
+          title: Text(widget.Instructor.name, style: new TextStyle(color: Colors.black)),
+          backgroundColor: Colors.lightBlue,
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
         ),
         body: loading
             ? LinearProgressIndicator()
-            : SingleChildScrollView(
-                child: new Column(
+            : Container(
+            decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                  colors: [Colors.white, Colors.lightBlue],
+                  begin: FractionalOffset.bottomCenter,
+                  end: FractionalOffset.topCenter,
+                )),
+                child: SingleChildScrollView(
+                    child: new Column(
                 children: reviews,
-              )));
+              ))));
   }
 }

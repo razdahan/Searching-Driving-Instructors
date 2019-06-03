@@ -6,6 +6,8 @@ import 'package:main/main.dart';
 class AddInstructor extends StatefulWidget {
   @override
   _AddInstructorState createState() => _AddInstructorState();
+  const AddInstructor({Key key, this.user}) : super(key: key);
+  final FirebaseUser user;
 }
 
 
@@ -72,7 +74,12 @@ class _AddInstructorState extends State<AddInstructor> {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
-      try {
+      final DocumentSnapshot result = await Firestore.instance
+          .collection('users').document(widget.user.uid).get();
+        String role=result.data['role'];
+
+
+      if(role.toLowerCase()=="admin") {
         Firestore.instance.runTransaction((transaction) async {
           DrivingInstructor u = new DrivingInstructor(
               phone_number: _phone_number,
@@ -84,13 +91,16 @@ class _AddInstructorState extends State<AddInstructor> {
               u.toJson());
         });
 
-        //TODO Change email
+
         Navigator.of(context).pop();
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Welcome()));
-      } catch (e) {
-        print(e.message);
       }
+      else{
+
+      }
+
+
     }
   }
 }

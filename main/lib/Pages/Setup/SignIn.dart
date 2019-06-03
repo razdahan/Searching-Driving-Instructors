@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:main/main.dart';
 
 class LoginPage extends StatefulWidget {
-
   @override
   _LoginPageState createState() => new _LoginPageState();
-
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -16,100 +15,110 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Theme(
+        data: new ThemeData(
+        fontFamily: 'cour',
+        hintColor: Colors.white,
+        primaryColor: Colors.white,
+        primaryColorDark: Colors.white,
+    ),
+      child: Scaffold(
         appBar: AppBar(
-          title: Text('התחברות', style: new TextStyle(color: Colors.black)),
-          backgroundColor: Colors.lightBlue,
+          elevation: 0.0,
+          title: Text('התחברות', style: new TextStyle(color: Colors.white)),
+          backgroundColor: HexColor("#51C5EF"),
           centerTitle: true,
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: Colors.white, //change your color here
           ),
         ),
         body: Container(
             decoration: new BoxDecoration(
                 gradient: new LinearGradient(
-                  colors: [Colors.white, Colors.lightBlue],
-                  begin: FractionalOffset.bottomCenter,
-                  end: FractionalOffset.topCenter,
-                )),
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "כתובת האימייל",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(
-                                      color: Colors.white, width: 1),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'כתובת האימייל שלך חסרה';
-                                }
-                              },
-                              onSaved: (input) => _email = input,
-                            ))),
-
-                    Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: Padding(
-                            padding: EdgeInsets.only(top: 25.0),
-                            child: TextFormField(
-                              decoration: new InputDecoration(
-                                labelText: "סיסמא",
-                                labelStyle: new TextStyle(color: Colors.black),
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(9.0),
-                                  borderSide: new BorderSide(width: 1,),
-                                ),
-                              ),
-                              validator: (input) {
-                                if (input.isEmpty) {
-                                  return 'הסיסמא שלך חסרה';
-                                }
-
-                              },
-                              onSaved: (input) => _password = input,
-                              obscureText: true,
-                            ))),
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+              begin: FractionalOffset.bottomCenter,
+              end: FractionalOffset.topCenter,
+            )),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
                       children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 100.0, right: 100.0, top: 50.0),
-                            child: GestureDetector(
-                              onTap: signIn,
-                              child: new Container(
-                                  alignment: Alignment.center,
-                                  height: 40.0,
-                                  decoration: new BoxDecoration(
-                                    borderRadius:
-                                    new BorderRadius.circular(9.0),
-                                    border: Border.all(width: 1),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "כתובת האימייל",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    fillColor: Colors.white,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
                                   ),
-                                  child: new Text("התחברות",
-                                      style: new TextStyle(
-                                          fontSize: 20.0,
-                                          color: Colors.black))),
-                            ),
-                          ),
-                        )
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'כתובת האימייל שלך חסרה';
+                                    }
+                                  },
+                                  onSaved: (input) => _email = input,
+                                ))),
+                        Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                child: TextFormField(
+                                  decoration: new InputDecoration(
+                                    labelText: "סיסמא",
+                                    labelStyle:
+                                        new TextStyle(color: Colors.white),
+                                    fillColor: Colors.white,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                  ),
+                                  validator: (input) {
+                                    if (input.isEmpty) {
+                                      return 'הסיסמא שלך חסרה';
+                                    }
+                                  },
+                                  onSaved: (input) => _password = input,
+                                  obscureText: true,
+                                ))),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 100.0, right: 100.0, top: 100.0),
+                                child:Card(
+                                  elevation: 15,
+                                child: GestureDetector(
+                                  onTap: signIn,
+                                  child: new Container(
+                                      alignment: Alignment.center,
+                                      height: 40.0,
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            new BorderRadius.circular(9.0),
+
+                                      ),
+                                      child: new Text("התחברות",
+                                          style: new TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black))),
+                                ),
+                              )),
+                            )
+                          ],
+                        ),
                       ],
-                    ),
-                  ],
-                ))));
+                    )))));
   }
 
   Future<void> signIn() async {
@@ -119,8 +128,15 @@ class _LoginPageState extends State<LoginPage> {
       try {
         FirebaseUser user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
+        final DocumentSnapshot result = await Firestore.instance
+            .collection('users')
+            .document(user.uid)
+            .get();
+        String name = result.data['name'];
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Home(user: user)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => Home(user: user, name: name)));
       } catch (e) {
         print(e.message);
       }

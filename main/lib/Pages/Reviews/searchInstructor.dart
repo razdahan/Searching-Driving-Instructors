@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Setup/InstructorProfile.dart';
+import 'package:main/Pages/Reviews/InstructorProfile.dart';
 import "package:autocomplete_textfield/autocomplete_textfield.dart";
 import 'package:main/main.dart';
 class ViewReview extends StatefulWidget {
@@ -66,14 +66,27 @@ class _ViewReviewState extends State<ViewReview> {
           )
         ]);
   }
-
+//TODO CHANGE TEXT TO RTL IN THE SEARCH BAR
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('חפש ביקורות על מורה'),
+          title: Text("חפש את המורה", style: new TextStyle(color: Colors.black)),
+          backgroundColor: Colors.lightBlue,
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
         ),
-        body: Form(
+        body:
+        Container(
+        decoration: new BoxDecoration(
+        gradient: new LinearGradient(
+        colors: [Colors.white, Colors.lightBlue],
+        begin: FractionalOffset.bottomCenter,
+        end: FractionalOffset.topCenter,
+        )),
+       child:Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
@@ -107,7 +120,7 @@ class _ViewReviewState extends State<ViewReview> {
                         },
                       )
               ],
-            )));
+            ))));
   }
 
   void navigateToInstructorProfile(DrivingInstructor Instructor) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:main/Pages/Setup/SignIn.dart';
 import 'package:main/Pages/Setup/SignUp.dart';
-import 'package:main/Pages/Setup/AddInstructor.dart';
-import 'package:main/Pages/Setup/AddReview.dart';
-import 'package:main/Pages/Setup/ViewReview.dart';
+import 'package:main/Pages/Instructor/AddInstructor.dart';
+import 'package:main/Pages/Reviews/AddReview.dart';
+import 'package:main/Pages/Reviews/searchInstructor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Setup/EditReview.dart';
 
