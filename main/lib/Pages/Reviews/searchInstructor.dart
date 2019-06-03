@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Reviews/InstructorProfile.dart';
 import "package:autocomplete_textfield/autocomplete_textfield.dart";
 import 'package:main/main.dart';
+
 class ViewReview extends StatefulWidget {
   @override
   _ViewReviewState createState() => _ViewReviewState();
@@ -12,17 +13,14 @@ class ViewReview extends StatefulWidget {
   final FirebaseUser user;
 }
 
-
-
 class _ViewReviewState extends State<ViewReview> {
   AutoCompleteTextField search;
-  GlobalKey<AutoCompleteTextFieldState<DrivingInstructor>> key = new GlobalKey();
+  GlobalKey<AutoCompleteTextFieldState<DrivingInstructor>> key =
+      new GlobalKey();
   bool InstructorNameValidator;
   static List<DrivingInstructor> Inst = new List<DrivingInstructor>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = true;
-
-
 
   void getInstructors() async {
     final QuerySnapshot result = await Firestore.instance
@@ -40,9 +38,12 @@ class _ViewReviewState extends State<ViewReview> {
 
       Inst.add(d);
     }
-    setState(() {
-      loading = false;
-    });
+    if (mounted) {
+      setState(() {
+        loading = false;
+      });
+    }else
+      return;
   }
 
   @override
@@ -51,76 +52,102 @@ class _ViewReviewState extends State<ViewReview> {
   }
 
   Widget row(DrivingInstructor d) {
-    return Row(
+    return Container(
+        decoration: new BoxDecoration(
+
+            border: new Border.all(color: Colors.grey,width: 0.5)
+        ),
+        child:Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
         children: <Widget>[
-          Text(
-            d.name,
-            style: TextStyle(fontSize: 16.0),
-          ),
-          Padding(
-            padding: EdgeInsets.all(15.0),
-          ),
+
           Text(
             d.test_area,
-          )
-        ]);
+            style: TextStyle(fontFamily: 'cour'),
+          ),
+          Padding(
+            padding:const EdgeInsets.only(
+                left: 100.0, right: 100.0, top: 75.0),
+          ),
+          Text(
+            d.name,
+            style: TextStyle(fontFamily: 'cour'),
+          ),
+
+        ]));
   }
-//TODO CHANGE TEXT TO RTL IN THE SEARCH BAR
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("חפש את המורה", style: new TextStyle(color: Colors.black)),
-          backgroundColor: Colors.lightBlue,
-          centerTitle: true,
-          iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
-          ),
+    return new Theme(
+        data: new ThemeData(
+          fontFamily: 'cour',
+          hintColor: Colors.white,
+          primaryColor: Colors.white,
+          primaryColorDark: Colors.white,
         ),
-        body:
-        Container(
-        decoration: new BoxDecoration(
-        gradient: new LinearGradient(
-        colors: [Colors.white, Colors.lightBlue],
-        begin: FractionalOffset.bottomCenter,
-        end: FractionalOffset.topCenter,
-        )),
-       child:Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                loading
-                    ? LinearProgressIndicator()
-                    : search = AutoCompleteTextField<DrivingInstructor>(
-                        clearOnSubmit: false,
-                        key: key,
-                        suggestions: Inst,
-                        style: TextStyle(color: Colors.black, fontSize: 16.0),
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.fromLTRB(10.0, 30.0, 10.0, 20.0),
-                          hintText: "חפש מורה",
-                          hintStyle: TextStyle(color: Colors.black),
-                        ),
-                        itemFilter: (item, query) {
-                          return item.name.startsWith(query);
-                        },
-                        itemSorter: (a, b) {
-                          return a.name.compareTo(b.name);
-                        },
-                        itemSubmitted: (item) {
-                          setState(() {
-                            search.textField.controller.text = item.name;
-                            navigateToInstructorProfile(item);
-                          });
-                        },
-                        itemBuilder: (context, item) {
-                          return row(item);
-                        },
-                      )
-              ],
-            ))));
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text("חפש את המורה",
+                  style: new TextStyle(color: Colors.white)),
+              backgroundColor: HexColor("#51C5EF"),
+              elevation: 0,
+              centerTitle: true,
+              iconTheme: IconThemeData(
+                color: Colors.white, //change your color here
+              ),
+            ),
+            body: Container(
+                decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                  begin: FractionalOffset.bottomCenter,
+                  end: FractionalOffset.topCenter,
+                )),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        loading
+                            ? LinearProgressIndicator()
+                            : Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: search =
+                                    AutoCompleteTextField<DrivingInstructor>(
+                                  clearOnSubmit: true,
+                                  key: key,
+                                  suggestions: Inst,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  decoration: InputDecoration(
+
+                                    hintText: "חפש מורה",
+                                    hintStyle: TextStyle(color: Colors.white),
+                                  ),
+                                  itemFilter: (item, query) {
+                                    return item.name.startsWith(query);
+                                  },
+                                  itemSorter: (a, b) {
+                                    return a.name.compareTo(b.name);
+                                  },
+                                  itemSubmitted: (item) {
+                                    if(!mounted)
+                                      return;
+                                    setState(() {
+                                      search.textField.controller.text =
+                                          item.name;
+                                      navigateToInstructorProfile(item);
+                                    });
+                                  },
+                                  itemBuilder: (context, item) {
+                                    return row(item);
+                                  },
+                                ))
+                      ],
+                    )))));
   }
 
   void navigateToInstructorProfile(DrivingInstructor Instructor) {
@@ -129,15 +156,20 @@ class _ViewReviewState extends State<ViewReview> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => InstructorProfile(user: null,Instructor: Instructor,),
-                fullscreenDialog: true));
+                builder: (context) => InstructorProfile(
+                      user: null,
+                      Instructor: Instructor,
+                    ),
+               ));
       } else {
-
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => InstructorProfile(user: firebaseUser,Instructor: Instructor,),
-                fullscreenDialog: true));
+                builder: (context) => InstructorProfile(
+                      user: firebaseUser,
+                      Instructor: Instructor,
+                    ),
+                ));
       }
     });
   }

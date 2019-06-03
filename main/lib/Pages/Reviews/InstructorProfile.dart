@@ -59,13 +59,20 @@ class _InstructorProfileState extends State<InstructorProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return new Theme(
+        data: new ThemeData(
+        fontFamily: 'cour',
+        hintColor: Colors.white,
+        primaryColor: Colors.white,
+        primaryColorDark: Colors.white,
+    ),
+    child:Scaffold(
         appBar: AppBar(
-          title: Text(widget.Instructor.name, style: new TextStyle(color: Colors.black)),
-          backgroundColor: Colors.lightBlue,
+          title: Text(widget.Instructor.name, style: new TextStyle(color: Colors.white)),
+          backgroundColor:HexColor("#51C5EF"),
           centerTitle: true,
           iconTheme: IconThemeData(
-            color: Colors.black, //change your color here
+            color: Colors.white, //change your color here
           ),
         ),
         body: loading
@@ -73,13 +80,13 @@ class _InstructorProfileState extends State<InstructorProfile> {
             : Container(
             decoration: new BoxDecoration(
                 gradient: new LinearGradient(
-                  colors: [Colors.white, Colors.lightBlue],
+                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
                   begin: FractionalOffset.bottomCenter,
                   end: FractionalOffset.topCenter,
                 )),
                 child: SingleChildScrollView(
                     child: new Column(
                 children: reviews,
-              ))));
+              )))));
   }
 }
