@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
         primaryColorDark: Colors.white,
     ),
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         appBar: AppBar(
           elevation: 0.0,
           title: Text('התחברות', style: new TextStyle(color: Colors.white)),
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
             )),
                 child: Form(
                     key: _formKey,
-                    child: Column(
+                    child: ListView(
                       children: <Widget>[
                         Directionality(
                             textDirection: TextDirection.rtl,
@@ -110,7 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                       child: new Text("התחברות",
                                           style: new TextStyle(
-                                              fontSize: 15.0,
+                                              fontSize:
+                                              15.0,
                                               color: Colors.black))),
                                 ),
                               )),
@@ -125,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
-      try {
+
         FirebaseUser user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
         final DocumentSnapshot result = await Firestore.instance
@@ -137,9 +139,7 @@ class _LoginPageState extends State<LoginPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => Home(user: user, name: name)));
-      } catch (e) {
-        print(e.message);
-      }
+
     }
   }
 }

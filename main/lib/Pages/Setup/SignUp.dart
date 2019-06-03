@@ -23,6 +23,7 @@ class _SignUpState extends State<SignUp> {
           primaryColorDark: Colors.white,
         ),
         child: Scaffold(
+            resizeToAvoidBottomPadding: false,
             appBar: AppBar(
               title: Text('הרשמה', style: new TextStyle(fontSize:25,color: Colors.white)),
               backgroundColor: HexColor("#51C5EF"),
@@ -33,6 +34,7 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
             body: Container(
+
                 decoration: new BoxDecoration(
                     gradient: new LinearGradient(
                   colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
@@ -41,12 +43,12 @@ class _SignUpState extends State<SignUp> {
                 )),
                 child: Form(
                     key: _formKey,
-                    child: Column(
+                    child: ListView(
                       children: <Widget>[
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
-                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                padding: EdgeInsets.only(left:30,right:30,top: 5.0),
                                 child: TextFormField(
                                   decoration: new InputDecoration(
                                     labelText: "כתובת האימייל",
@@ -158,7 +160,7 @@ class _SignUpState extends State<SignUp> {
                             Expanded(
                               child: Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 100.0, right: 100.0, top: 70.0),
+                                      left: 100.0, right: 100.0, top: 30.0),
                                   child: Card(
                                     elevation: 15,
                                     child: GestureDetector(

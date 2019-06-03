@@ -85,9 +85,9 @@ class _InstructorProfileState extends State<InstructorProfile> {
                   begin: FractionalOffset.bottomCenter,
                   end: FractionalOffset.topCenter,
                 )),
-                child: SingleChildScrollView(
-                    child: new Column(
+            child: ListView(
+
                 children: reviews,
-              )))));
+              ))));
   }
 }

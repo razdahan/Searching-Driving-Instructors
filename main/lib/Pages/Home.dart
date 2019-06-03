@@ -74,7 +74,8 @@ class Home extends StatelessWidget {
                                       ]))),
                           GestureDetector(
                               onTap: () {
-                                print("Asdasdas");
+                                navigateToAddReview(context);
+                                print("add reviews");
                               },
                               child: Card(
                                   elevation: 5.0,
@@ -84,6 +85,11 @@ class Home extends StatelessWidget {
                           GestureDetector(
                               onTap: () {
                                 logout();
+                                Navigator.pop(context);
+                                Navigator.push(context,MaterialPageRoute(
+                                    builder: (context) => Myapp(),
+                                    fullscreenDialog: true));
+
                               },
                               child: Card(
                                   elevation: 5.0,

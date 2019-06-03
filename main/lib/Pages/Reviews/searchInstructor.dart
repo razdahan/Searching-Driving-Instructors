@@ -16,7 +16,7 @@ class ViewReview extends StatefulWidget {
 class _ViewReviewState extends State<ViewReview> {
   AutoCompleteTextField search;
   GlobalKey<AutoCompleteTextFieldState<DrivingInstructor>> key =
-      new GlobalKey();
+  new GlobalKey();
   bool InstructorNameValidator;
   static List<DrivingInstructor> Inst = new List<DrivingInstructor>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -58,24 +58,24 @@ class _ViewReviewState extends State<ViewReview> {
             border: new Border.all(color: Colors.grey,width: 0.5)
         ),
         child:Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-        children: <Widget>[
+            children: <Widget>[
 
-          Text(
-            d.test_area,
-            style: TextStyle(fontFamily: 'cour'),
-          ),
-          Padding(
-            padding:const EdgeInsets.only(
-                left: 100.0, right: 100.0, top: 75.0),
-          ),
-          Text(
-            d.name,
-            style: TextStyle(fontFamily: 'cour'),
-          ),
+              Text(
+                d.test_area,
+                style: TextStyle(fontFamily: 'cour'),
+              ),
+              Padding(
+                padding:const EdgeInsets.only(
+                    left: 20.0, top: 75.0),
+              ),
+              Text(
+                d.name,
+                style: TextStyle(fontFamily: 'cour'),
+              ),
 
-        ]));
+            ]));
   }
 
 
@@ -89,6 +89,7 @@ class _ViewReviewState extends State<ViewReview> {
           primaryColorDark: Colors.white,
         ),
         child: Scaffold(
+            resizeToAvoidBottomPadding: false,
             appBar: AppBar(
               title: Text("חפש את המורה",
                   style: new TextStyle(color: Colors.white)),
@@ -102,20 +103,20 @@ class _ViewReviewState extends State<ViewReview> {
             body: Container(
                 decoration: new BoxDecoration(
                     gradient: new LinearGradient(
-                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
-                  begin: FractionalOffset.bottomCenter,
-                  end: FractionalOffset.topCenter,
-                )),
+                      colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                      begin: FractionalOffset.bottomCenter,
+                      end: FractionalOffset.topCenter,
+                    )),
                 child: Form(
                     key: _formKey,
-                    child: Column(
+                    child: ListView(
                       children: <Widget>[
                         loading
                             ? LinearProgressIndicator()
                             : Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: search =
-                                    AutoCompleteTextField<DrivingInstructor>(
+                            textDirection: TextDirection.rtl,
+                            child: search =
+                                AutoCompleteTextField<DrivingInstructor>(
                                   clearOnSubmit: true,
                                   key: key,
                                   suggestions: Inst,
@@ -156,20 +157,20 @@ class _ViewReviewState extends State<ViewReview> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => InstructorProfile(
-                      user: null,
-                      Instructor: Instructor,
-                    ),
-               ));
+              builder: (context) => InstructorProfile(
+                user: null,
+                Instructor: Instructor,
+              ),
+            ));
       } else {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => InstructorProfile(
-                      user: firebaseUser,
-                      Instructor: Instructor,
-                    ),
-                ));
+              builder: (context) => InstructorProfile(
+                user: firebaseUser,
+                Instructor: Instructor,
+              ),
+            ));
       }
     });
   }

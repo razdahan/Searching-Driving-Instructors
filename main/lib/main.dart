@@ -116,7 +116,7 @@ class _MyappState extends State<Myapp> {
                   name: name,
               ))
             : MaterialApp(
-                debugShowCheckedModeBanner: false,
+                debugShowCheckedModeBanner: true,
                 theme: ThemeData(
                   fontFamily: 'Cour',
                 ),
@@ -134,6 +134,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     print(username);
     return new Scaffold(
+        resizeToAvoidBottomPadding: false,
       body: Container(
         decoration: new BoxDecoration(
             gradient: new LinearGradient(
@@ -141,8 +142,8 @@ class MyHomePage extends StatelessWidget {
               begin: FractionalOffset.bottomCenter,
               end: FractionalOffset.topCenter,
             )),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+
           children: <Widget>[
             new Row(
               mainAxisAlignment: MainAxisAlignment.center,
