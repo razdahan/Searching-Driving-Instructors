@@ -94,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 100.0, right: 100.0, top: 100.0),
+                                    left: 100.0, right: 100.0, top: 70.0),
                                 child:Card(
                                   elevation: 15,
                                 child: GestureDetector(

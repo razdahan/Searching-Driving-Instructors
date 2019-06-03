@@ -71,6 +71,7 @@ class _InstructorProfileState extends State<InstructorProfile> {
           title: Text(widget.Instructor.name, style: new TextStyle(color: Colors.white)),
           backgroundColor:HexColor("#51C5EF"),
           centerTitle: true,
+          elevation: 0,
           iconTheme: IconThemeData(
             color: Colors.white, //change your color here
           ),
