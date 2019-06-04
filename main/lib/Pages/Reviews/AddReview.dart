@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Setup/Welcome.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:main/main.dart';
-
+import 'package:main/Pages/Reviews/InstructorProfile.dart';
 class AddReview extends StatefulWidget {
   @override
   _AddReviewState createState() => _AddReviewState();
 
-  const AddReview({Key key, this.user,this.instructor}) : super(key: key);
+  const AddReview({Key key, this.user,this.instructor,this.userData}) : super(key: key);
   final FirebaseUser user;
   final DrivingInstructor instructor;
+  final User userData;
 }
 
 class _AddReviewState extends State<AddReview> {
@@ -36,7 +37,7 @@ class _AddReviewState extends State<AddReview> {
               backgroundColor: HexColor("#51C5EF"),
               centerTitle: true,
               iconTheme: IconThemeData(
-                color: Colors.white, //change your color here
+                color: Colors.white,
               ),
             ),
             body: Container(
@@ -66,6 +67,7 @@ class _AddReviewState extends State<AddReview> {
                                     ),
                                   ),
                                   validator: (input) {
+
                                     if (input.isEmpty) {
                                       return 'חסר הדירוג';
                                     }
@@ -105,7 +107,9 @@ class _AddReviewState extends State<AddReview> {
                                   child:Card(
                                     elevation: 15,
                                     child: GestureDetector(
-                                      onTap: addReview,
+                                      onTap: ()async{
+                                        addReview(context);
+                                        },
                                       child: new Container(
                                           alignment: Alignment.center,
                                           height: 40.0,
@@ -129,21 +133,21 @@ class _AddReviewState extends State<AddReview> {
                     )))));
   }
 
-  Future<void> addReview() async {
+  Future<void> addReview(BuildContext context) async {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
       try {
         String username = "";
         if(widget.user!=null) {
-          username=widget.instructor.name;
+          username=widget.userData.name;
         }
         else
           username = "Anonymos";
 
         Firestore.instance.runTransaction((transaction) async {
           Review u = new Review(
-              InstructorName:username,
+              InstructorName:widget.instructor.name,
               AuthorName: username,
               Rating: int.parse(_rating),
               Text: _text);
@@ -152,9 +156,16 @@ class _AddReviewState extends State<AddReview> {
         });
 
 
-        Navigator.of(context).pop();
         Navigator.pop(
             context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => InstructorProfile(
+          user:widget.user,
+          userData: widget.userData,
+          Instructor: widget.instructor,
+
+
+        )));
       } catch (e) {
         print(e);
       }

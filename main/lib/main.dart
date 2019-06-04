@@ -24,12 +24,14 @@ class Review {
       {@required this.InstructorName,
       @required this.AuthorName,
       @required this.Text,
-      @required this.Rating});
+      @required this.Rating,
+      this.reviewKey});
 
   final String InstructorName;
   final String AuthorName;
   final String Text;
   final int Rating;
+  final String reviewKey;
 
   Map<String, dynamic> toJson() => {
         'InstructorName': InstructorName,

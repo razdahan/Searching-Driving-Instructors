@@ -159,7 +159,7 @@ class Home extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ViewReview(user: firebaseUser),
+                builder: (context) => ViewReview(user: firebaseUser,userData: userData,),
                 fullscreenDialog: true));
       }
     });

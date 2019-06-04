@@ -9,8 +9,9 @@ class ViewReview extends StatefulWidget {
   @override
   _ViewReviewState createState() => _ViewReviewState();
 
-  const ViewReview({Key key, this.user}) : super(key: key);
+  const ViewReview({Key key, this.user,this.userData}) : super(key: key);
   final FirebaseUser user;
+  final userData;
 }
 
 class _ViewReviewState extends State<ViewReview> {
@@ -160,6 +161,7 @@ class _ViewReviewState extends State<ViewReview> {
               builder: (context) => InstructorProfile(
                 user: null,
                 Instructor: Instructor,
+                userData: null,
               ),
             ));
       } else {
@@ -169,6 +171,7 @@ class _ViewReviewState extends State<ViewReview> {
               builder: (context) => InstructorProfile(
                 user: firebaseUser,
                 Instructor: Instructor,
+                userData:widget.userData ,
               ),
             ));
       }

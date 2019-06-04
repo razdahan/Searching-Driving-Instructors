@@ -2,15 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Home.dart';
+import 'package:main/Pages/Reviews/InstructorProfile.dart';
 import 'package:main/main.dart';
-import 'package:main/Pages/Setup/Welcome.dart';
+
 
 class EditReview extends StatefulWidget {
   @override
   _EditReviewState createState() => _EditReviewState();
 
-  const EditReview({Key key, this.user}) : super(key: key);
+  const EditReview({Key key, this.user, this.userData,this.review,this.instructor}) : super(key: key);
   final FirebaseUser user;
+  final User userData;
+  final Review review;
+  final DrivingInstructor instructor;
 }
 
 class _EditReviewState extends State<EditReview> {
@@ -24,30 +28,57 @@ class _EditReviewState extends State<EditReview> {
 
   @override
   Widget build(BuildContext context) {
+    ReviewKey=widget.review.reviewKey;
     Controllers.add(new TextEditingController());
     Controllers.add(new TextEditingController());
     Controllers.add(new TextEditingController());
     Controllers.add(new TextEditingController());
+    _InstructorName = widget.review.InstructorName;
+    _AuthorName = widget.review.AuthorName;
+    _Text = widget.review.Text;
+    _Rating = widget.review.Rating;
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('ערוך ביקורת'),
+    Controllers[0].text = _InstructorName;
+    Controllers[1].text = _Rating.toString();
+    Controllers[2].text = _Text;
+    Controllers[3].text = _AuthorName;
+    return new Theme(
+
+        data: new ThemeData(
+
+          fontFamily: 'cour',
+          hintColor: Colors.white,
+          primaryColor: Colors.white,
+          primaryColorDark: Colors.white,
         ),
-        body: Form(
+    child:Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          title: Text(' ערוך ביקורת ', style: new TextStyle(color: Colors.white)),
+          backgroundColor: HexColor("#51C5EF"),
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+        ),
+        body:Container(
+    decoration: new BoxDecoration(
+    gradient: new LinearGradient(
+    colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+    begin: FractionalOffset.bottomCenter,
+    end: FractionalOffset.topCenter,
+    )),
+    child:
+    Directionality(
+      textDirection: TextDirection.rtl,
+
+    child:Form(
             key: _formKey,
             child: Column(
               children: <Widget>[
-                TextField(
-                  onChanged: (input) => ReviewKey = input,
-                  decoration: InputDecoration(labelText: 'מפתח ביקורת'),
-                ),
-                RaisedButton(
-                  onPressed: () async {
-                    LoadReview();
-                  },
-                  child: Text('load review'),
-                ),
+
                 TextFormField(
+                  style: new TextStyle(fontWeight:FontWeight.w700),
                   controller: Controllers[3],
                   validator: (input) {
                     if (input.isEmpty) {
@@ -56,9 +87,10 @@ class _EditReviewState extends State<EditReview> {
 
                   },
                   onSaved: (input) => _AuthorName = input,
-                  decoration: InputDecoration(labelText: 'שם המורה'),
+                  decoration: InputDecoration(labelText: 'שם הכותב'),
                 ),
                 TextFormField(
+                  style: new TextStyle(fontWeight:FontWeight.w700),
                   controller: Controllers[0],
                   validator: (input) {
                     if (input.isEmpty) {
@@ -71,6 +103,7 @@ class _EditReviewState extends State<EditReview> {
                   decoration: InputDecoration(labelText: 'שם המורה'),
                 ),
                 TextFormField(
+                  style: new TextStyle(fontWeight:FontWeight.w700),
                   controller: Controllers[1],
                   validator: (input) {
                     if (input.isEmpty) {
@@ -81,6 +114,7 @@ class _EditReviewState extends State<EditReview> {
                   decoration: InputDecoration(labelText: 'דירוג'),
                 ),
                 TextFormField(
+                  style: new TextStyle(fontWeight:FontWeight.w700),
                   controller: Controllers[2],
                   validator: (input) {
                     if (input.isEmpty) {
@@ -102,7 +136,7 @@ class _EditReviewState extends State<EditReview> {
                     });
 
                     if (_formKey.currentState.validate()) {
-                      SaveReview();
+                      SaveReview(context);
                     }
                   },
                   child: Text('עדכן'),
@@ -110,69 +144,50 @@ class _EditReviewState extends State<EditReview> {
                 RaisedButton(
                   onPressed: () async {
 
-                      DeleteReview();
+                      DeleteReview(context);
 
                   },
                   child: Text('מחק'),
                 )
               ],
-            )));
+            ))))));
   }
 
-  Future<void> DeleteReview() async {
+  Future<void> DeleteReview(BuildContext context) async {
     await Firestore.instance
         .collection('Reviews')
         .document(ReviewKey)
         .delete();
-    Navigator.of(context).pop();
-    if(widget.user!=null)
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Welcome()));
-    else
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Welcome()));
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => InstructorProfile(
+      user:widget.user,
+      userData: widget.userData,
+      Instructor: widget.instructor,
+
+
+    )));
   }
 
-  Future<void> SaveReview() async {
+  Future<void> SaveReview(BuildContext context) async {
 
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
-      try {
         Firestore.instance.collection('Reviews').document(ReviewKey).updateData({ 'AuthorName':_AuthorName, 'InstructorName': _InstructorName,'rating':_Rating,'text':_Text });
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => InstructorProfile(
+          user:widget.user,
+        userData: widget.userData,
+        Instructor: widget.instructor,
 
-        Navigator.of(context).pop();
-        if(widget.user!=null)
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Welcome()));
-        else
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => Welcome()));
-      } catch (e) {
-        print(e.message);
-      }
+
+      )));
+
     }
   }
 
-  Future<void> LoadReview() async {
-    print(ReviewKey);
-    final DocumentSnapshot result = await Firestore.instance
-        .collection('Reviews')
-        .document(ReviewKey)
-        .get();
-
-    _InstructorName = result.data['InstructorName'];
-    _AuthorName = result.data['AuthorName'];
-    _Text = result.data['text'];
-    _Rating = result.data['rating'];
-
-    Controllers[0].text = _InstructorName;
-    Controllers[1].text = _Rating.toString();
-    Controllers[2].text = _Text;
-    Controllers[3].text = _AuthorName;
-
-    print(_Text);
-  }
 
   Future<bool> doesInstructorExist(String name) async {
     print(name);

@@ -150,9 +150,13 @@ class _AddInstructorState extends State<AddInstructor> {
                                       context: context,
                                       builder: (_) => new AlertDialog(
                                     title: Text('התראה'),
-                                    content: const Text(
-                                        'הבקשה שלך להוספת המורה תשלח אל השרת ורק לאחר אישור תיתווסף לאפליקציה'),
+                                    content:Directionality(
+                                    textDirection: TextDirection.rtl
+                                    ,
+                                        child:Text(
+                                        'הבקשה שלך להוספת המורה תשלח אל השרת ורק לאחר אישור תיתווסף לאפליקציה')),
                                     actions: <Widget>[
+
                                       FlatButton(
 
                                         child: const Text('ביטול'),
@@ -203,9 +207,8 @@ class _AddInstructorState extends State<AddInstructor> {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
-      final DocumentSnapshot result = await Firestore.instance
-          .collection('users').document(widget.user.uid).get();
-        String role=result.data['role'];
+
+        String role=widget.userData.role;
 
 
       if(role.toLowerCase()=="admin") {
