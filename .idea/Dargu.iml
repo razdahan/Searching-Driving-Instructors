@@ -3,13 +3,13 @@
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
-        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/../../Dargu/gen" />
-        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/../../Dargu/gen" />
-        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/../../Dargu/AndroidManifest.xml" />
-        <option name="RES_FOLDER_RELATIVE_PATH" value="/../../Dargu/res" />
-        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/../../Dargu/assets" />
-        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/../../Dargu/libs" />
-        <option name="PROGUARD_LOGS_FOLDER_RELATIVE_PATH" value="/../../Dargu/proguard_logs" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/../gen" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/../gen" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/../main/android/app/src/main/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/../res" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/../assets" />
+        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/../libs" />
+        <option name="PROGUARD_LOGS_FOLDER_RELATIVE_PATH" value="/../proguard_logs" />
       </configuration>
     </facet>
   </component>
@@ -21,8 +21,9 @@
       <excludeFolder url="file://$MODULE_DIR$/main/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/main/build" />
     </content>
+    <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Dart SDK" level="project" />
-    <orderEntry type="library" exported="" name="Dart Packages" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
   </component>
 </module>

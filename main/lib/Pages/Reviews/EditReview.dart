@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Home.dart';
 import 'package:main/Pages/Reviews/InstructorProfile.dart';
 import 'package:main/main.dart';
-
+import 'dart:async';
 
 class EditReview extends StatefulWidget {
   @override
@@ -18,30 +17,30 @@ class EditReview extends StatefulWidget {
 }
 
 class _EditReviewState extends State<EditReview> {
-  String _InstructorName, _AuthorName, _Text;
-  bool InstructorNameValidator;
-  bool ReviewValidator;
-  String ReviewKey;
-  int _Rating;
+  String _instructorName, _authorName, _text;
+  bool instructorNameValidator;
+  bool reviewValidator;
+  String reviewKey;
+  double _rating;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  List<TextEditingController> Controllers = new List<TextEditingController>();
+  List<TextEditingController> controllers = new List<TextEditingController>();
 
   @override
   Widget build(BuildContext context) {
-    ReviewKey=widget.review.reviewKey;
-    Controllers.add(new TextEditingController());
-    Controllers.add(new TextEditingController());
-    Controllers.add(new TextEditingController());
-    Controllers.add(new TextEditingController());
-    _InstructorName = widget.review.InstructorName;
-    _AuthorName = widget.review.AuthorName;
-    _Text = widget.review.Text;
-    _Rating = widget.review.Rating;
+    reviewKey=widget.review.reviewKey;
+    controllers.add(new TextEditingController());
+    controllers.add(new TextEditingController());
+    controllers.add(new TextEditingController());
+    controllers.add(new TextEditingController());
+    _instructorName = widget.review.instructorName;
+    _authorName = widget.review.authorName;
+    _text = widget.review.text;
+    _rating = widget.review.rating;
 
-    Controllers[0].text = _InstructorName;
-    Controllers[1].text = _Rating.toString();
-    Controllers[2].text = _Text;
-    Controllers[3].text = _AuthorName;
+    controllers[0].text = _instructorName;
+    controllers[1].text = _rating.toString();
+    controllers[2].text = _text;
+    controllers[3].text = _authorName;
     return new Theme(
 
         data: new ThemeData(
@@ -79,49 +78,49 @@ class _EditReviewState extends State<EditReview> {
 
                 TextFormField(
                   style: new TextStyle(fontWeight:FontWeight.w700),
-                  controller: Controllers[3],
+                  controller: controllers[3],
                   validator: (input) {
                     if (input.isEmpty) {
                       return 'שם הכותב';
                     }
 
                   },
-                  onSaved: (input) => _AuthorName = input,
+                  onSaved: (input) => _authorName = input,
                   decoration: InputDecoration(labelText: 'שם הכותב'),
                 ),
                 TextFormField(
                   style: new TextStyle(fontWeight:FontWeight.w700),
-                  controller: Controllers[0],
+                  controller: controllers[0],
                   validator: (input) {
                     if (input.isEmpty) {
                       return 'שם המורה חסר';
                     }
-                    if (InstructorNameValidator == false)
+                    if (instructorNameValidator == false)
                       return "לא קיים כזה מורה כפרה";
                   },
-                  onSaved: (input) => _InstructorName = input,
+                  onSaved: (input) => _instructorName = input,
                   decoration: InputDecoration(labelText: 'שם המורה'),
                 ),
                 TextFormField(
                   style: new TextStyle(fontWeight:FontWeight.w700),
-                  controller: Controllers[1],
+                  controller: controllers[1],
                   validator: (input) {
                     if (input.isEmpty) {
                       return 'דירוג חסר';
                     }
                   },
-                  onSaved: (input) => _Rating = int.parse(input),
+                  onSaved: (input) => _rating = double.parse(input),
                   decoration: InputDecoration(labelText: 'דירוג'),
                 ),
                 TextFormField(
                   style: new TextStyle(fontWeight:FontWeight.w700),
-                  controller: Controllers[2],
+                  controller: controllers[2],
                   validator: (input) {
                     if (input.isEmpty) {
                       return 'חסרה חוות דעת על המורה';
                     }
                   },
-                  onSaved: (input) => _Text = input,
+                  onSaved: (input) => _text = input,
                   decoration: InputDecoration(
                       labelText: 'חוות דעת על המורה בכמה מילים'),
                 ),
@@ -129,14 +128,14 @@ class _EditReviewState extends State<EditReview> {
                   onPressed: () async {
                     final _formState = _formKey.currentState;
                     _formState.save();
-                    var response = await doesInstructorExist(_InstructorName);
+                    var response = await doesInstructorExist(_instructorName);
 
                     setState(() {
-                      this.InstructorNameValidator = response;
+                      this.instructorNameValidator = response;
                     });
 
                     if (_formKey.currentState.validate()) {
-                      SaveReview(context);
+                      saveReview(context);
                     }
                   },
                   child: Text('עדכן'),
@@ -144,7 +143,7 @@ class _EditReviewState extends State<EditReview> {
                 RaisedButton(
                   onPressed: () async {
 
-                      DeleteReview(context);
+                      deleteReview(context);
 
                   },
                   child: Text('מחק'),
@@ -153,34 +152,40 @@ class _EditReviewState extends State<EditReview> {
             ))))));
   }
 
-  Future<void> DeleteReview(BuildContext context) async {
+  Future<void> deleteReview(BuildContext context) async {
     await Firestore.instance
         .collection('Reviews')
-        .document(ReviewKey)
+        .document(reviewKey)
         .delete();
-    Navigator.pop(context);
+    Navigator.of(
+        context).pop();
+    Navigator.pop(
+        context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => InstructorProfile(
       user:widget.user,
       userData: widget.userData,
-      Instructor: widget.instructor,
+      instructor: widget.instructor,
 
 
     )));
   }
 
-  Future<void> SaveReview(BuildContext context) async {
+  Future<void> saveReview(BuildContext context) async {
 
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
-        Firestore.instance.collection('Reviews').document(ReviewKey).updateData({ 'AuthorName':_AuthorName, 'InstructorName': _InstructorName,'rating':_Rating,'text':_Text });
-      Navigator.pop(context);
+        Firestore.instance.collection('Reviews').document(reviewKey).updateData({ 'authorName':_authorName, 'instructorName': _instructorName,'rating':_rating,'text':_text });
+      Navigator.of(
+          context).pop();
+      Navigator.pop(
+          context);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => InstructorProfile(
           user:widget.user,
         userData: widget.userData,
-        Instructor: widget.instructor,
+        instructor: widget.instructor,
 
 
       )));

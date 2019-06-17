@@ -1,186 +1,273 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:main/Pages/Reviews/searchInstructor.dart';
-import 'package:main/Pages/Reviews/AddReview.dart';
+import 'package:main/Pages/Reviews/instructorSelect.dart';
 import 'package:main/Pages/Instructor/AddInstructor.dart';
+import 'package:main/Pages/Setup/SignIn.dart';
+import 'package:main/Pages/Setup/SignUp.dart';
 import 'package:main/main.dart';
+import 'package:main/Pages/Profile/MyProfile.dart';
 
 class Home extends StatelessWidget {
   const Home({Key key, this.user, this.userData}) : super(key: key);
   final FirebaseUser user;
   final User userData;
-
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return new Theme(
         data: new ThemeData(
-        fontFamily: 'cour',
-        hintColor: Colors.white,
-        primaryColor: Colors.white,
-        primaryColorDark: Colors.white,
-    ),
-    child:Scaffold(
-        appBar: AppBar(
-          title:
-              Text("  ${userData.name} שלום", style: new TextStyle(color: Colors.white)),
-          backgroundColor: HexColor("#51C5EF"),
-          elevation: 0,
-          centerTitle: true,
-          iconTheme: IconThemeData(
-            color: Colors.white, //change your color here
-          ),
+          fontFamily: 'cour',
+          hintColor: Colors.white,
+          primaryColor: Colors.white,
+          primaryColorDark: Colors.white,
         ),
-        body: Container(
-            decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-              colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
-              begin: FractionalOffset.bottomCenter,
-              end: FractionalOffset.topCenter,
-            )),
-            child: Padding(
-                padding: const EdgeInsets.only(left: 0, right: 0, top: 180.0),
-                child: Container(
-                    alignment: Alignment.bottomCenter,
-                    child: GridView.count(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 2,
-                        children: <Widget>[
-                          GestureDetector(
-                              onTap: () {
-                                navigateToAddInstructor(context);
-                              },
-                              child: Card(
-                                  elevation: 5.0,
-                                  child: Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Center(
-
-                                          child: Icon(
-                                            Icons.plus_one,
-                                            color: Colors.green,
-                                            size: 60.0,
-                                          ),
-
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 25.0),
-                                            child: Text('הוסף מורה',style: TextStyle(fontSize: 18,fontWeight:FontWeight.w800),))
-                                      ]))),
-                          GestureDetector(
-                              onTap: () {
-                                navigateToViewReview(context);
-                              },
-                              child: Card(
-                                  elevation: 5.0,
-                                  child: Column(
-                                      mainAxisAlignment:
+        child: Scaffold(
+            appBar: AppBar(
+              title: userData != null
+                  ? Text(" שלום ${userData.name} ",
+                  style: new TextStyle(color: Colors.black))
+                  : Text(" שלום  ", style: new TextStyle(color: Colors.black)),
+              backgroundColor: Colors.white,
+              elevation: 10,
+              centerTitle: true,
+              iconTheme: IconThemeData(
+                color: Colors.black, //change your color here
+              ),
+            ),
+            body: Container(
+                decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                      colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                      begin: FractionalOffset.bottomCenter,
+                      end: FractionalOffset.topCenter,
+                    )),
+                child: Padding(
+                    padding:
+                    EdgeInsets.only(left: 0, right: 0, top:height/4),
+                    child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: GridView.count(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 2,
+                            children: <Widget>[
+                              GestureDetector(
+                                  onTap: () {
+                                    navigateToAddInstructor(context);
+                                  },
+                                  child: Card(
+                                      elevation: 5.0,
+                                      child: Column(
+                                          mainAxisAlignment:
                                           MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Center(
-
+                                          children: <Widget>[
+                                            Center(
+                                              child: Icon(
+                                                Icons.person_add,
+                                                color: Colors.green,
+                                                size: 60.0,
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 25.0),
+                                                child: Text(
+                                                  'הוסף מורה',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight.w800),
+                                                ))
+                                          ]))),
+                              GestureDetector(
+                                  onTap: () {
+                                    navigateToViewReview(context);
+                                  },
+                                  child: Card(
+                                      elevation: 5.0,
+                                      child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Center(
                                               child: Icon(
                                                 Icons.thumbs_up_down,
                                                 color: Colors.redAccent,
                                                 size: 60.0,
                                               ),
-
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 25.0),
-                                            child: Text('חפש מורה',style: TextStyle(fontSize: 18,fontWeight:FontWeight.w800),))
-                                      ]))),
-                          GestureDetector(
-                              onTap: () {
-
-                                print("add reviews");
-                              },
-                              child: Card(
-                                  elevation: 5.0,
-                                  child: new Center(
-                                    child: new Text('tile '),
-                                  ))),
-                          GestureDetector(
-                              onTap: () {
-                                logout();
-                                Navigator.pop(context);
-                                Navigator.push(context,MaterialPageRoute(
-                                    builder: (context) => Myapp(),
-                                    fullscreenDialog: true));
-
-                              },
-                              child: Card(
-                                  elevation: 5.0,
-                                  child: new Center(
-                                    child: new Text('התנתק'),
-                                  ))),
-                        ]))))));
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 25.0),
+                                                child: Text(
+                                                  'חפש מורה',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight.w800),
+                                                ))
+                                          ]))),
+                              GestureDetector(
+                                  onTap: userData != null
+                                      ? () {
+                                    navigateToMyProfile(context);
+                                  }
+                                      : () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SignUp(),
+                                        ));
+                                  },
+                                  child: Card(
+                                      elevation: 5.0,
+                                      child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Center(
+                                              child: userData != null
+                                                  ? Icon(
+                                                Icons.account_circle,
+                                                color: Colors.black,
+                                                size: 60.0,
+                                              )
+                                                  : Icon(
+                                                Icons.account_circle,
+                                                color: Colors.black,
+                                                size: 60.0,
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 25.0),
+                                                child: userData != null
+                                                    ? Text(
+                                                  'פרופיל',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w800),
+                                                )
+                                                    : Text(
+                                                  'הרשמה',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w800),
+                                                ))
+                                          ]))),
+                              GestureDetector(
+                                  onTap: userData != null
+                                      ? () {
+                                    logout();
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Myapp(),
+                                            fullscreenDialog: true));
+                                  }
+                                      : () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginPage(),
+                                            fullscreenDialog: true));
+                                  },
+                                  child: Card(
+                                      elevation: 5.0,
+                                      child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Center(
+                                              child: userData != null
+                                                  ? Icon(
+                                                Icons.power_settings_new,
+                                                color: Colors.black,
+                                                size: 60.0,
+                                              )
+                                                  : Icon(
+                                                Icons.exit_to_app,
+                                                color: Colors.black,
+                                                size: 60.0,
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 25.0),
+                                                child: userData != null
+                                                    ? Text(
+                                                  'התנתקות',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w800),
+                                                )
+                                                    : Text(
+                                                  'התחברות',
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w800),
+                                                ))
+                                          ]))),
+                            ]))))));
   }
 
-  Center checkRole(DocumentSnapshot snapshot) {
-    if (snapshot.data == null) {
-      return Center(
-        child: Text('no data set in the userId document in firestore'),
-      );
-    }
-    if (snapshot.data['role'] == 'admin') {
-      return adminPage(snapshot);
-    } else {
-      return userPage(snapshot);
-    }
-  }
 
   void logout() async {
     await FirebaseAuth.instance.signOut();
   }
 
-  Center adminPage(DocumentSnapshot snapshot) {
-    return Center(
-        child: Text('${snapshot.data['role']} ${snapshot.data['name']}'));
-  }
 
-  Center userPage(DocumentSnapshot snapshot) {
-    return Center(child: Text(snapshot.data['name']));
-  }
 
   void navigateToViewReview(BuildContext context) {
     FirebaseAuth.instance.currentUser().then((firebaseUser) {
-      if (firebaseUser == null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ViewReview(user: null),
-                fullscreenDialog: true));
-      } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ViewReview(user: firebaseUser,userData: userData,),
-                fullscreenDialog: true));
-      }
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => InstructorSelect(
+                user: firebaseUser,
+                userData:userData==null? new User(name: "",role: "member",age: "",email: "",phoneNumber: ""): userData,
+              ),
+              fullscreenDialog: true));
+
     });
   }
 
-
   void navigateToAddInstructor(BuildContext context) {
     FirebaseAuth.instance.currentUser().then((firebaseUser) {
-      if (firebaseUser == null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddInstructor(user: null,userData: null,),
-                fullscreenDialog: true));
-      } else {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddInstructor(user: firebaseUser,userData: userData,),
-                fullscreenDialog: true));
-      }
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddInstructor(
+                user: firebaseUser,
+                userData: userData==null? new User(name: "",role: "member",age: "",email: "",phoneNumber: ""):userData,
+              ),
+              fullscreenDialog: true));
+
+    });
+  }
+
+  void navigateToMyProfile(BuildContext context) {
+    FirebaseAuth.instance.currentUser().then((firebaseUser) {
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Profile(
+                user: firebaseUser,
+                userData:userData,
+              ),
+              fullscreenDialog: true));
+
     });
   }
 }

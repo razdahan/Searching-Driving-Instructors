@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Setup/SignIn.dart';
 import 'package:main/main.dart';
+import 'dart:async';
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  String _email, _password, _name, _age, _phone_number;
+  String _email, _password, _name, _age, _phoneNumber;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -25,22 +26,22 @@ class _SignUpState extends State<SignUp> {
         child: Scaffold(
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
-              title: Text('הרשמה', style: new TextStyle(fontSize:25,color: Colors.white)),
-              backgroundColor: HexColor("#51C5EF"),
+              title: Text('הרשמה', style: new TextStyle(fontSize:25,color: Colors.black)),
+              backgroundColor: Colors.white,
+              elevation: 10,
               centerTitle: true,
-              elevation: 0,
               iconTheme: IconThemeData(
-                color: Colors.white, //change your color here
+                color: Colors.black, //change your color here
               ),
             ),
             body: Container(
 
                 decoration: new BoxDecoration(
                     gradient: new LinearGradient(
-                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
-                  begin: FractionalOffset.bottomCenter,
-                  end: FractionalOffset.topCenter,
-                )),
+                      colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                      begin: FractionalOffset.bottomCenter,
+                      end: FractionalOffset.topCenter,
+                    )),
                 child: Form(
                     key: _formKey,
                     child: ListView(
@@ -53,10 +54,10 @@ class _SignUpState extends State<SignUp> {
                                   decoration: new InputDecoration(
                                     labelText: "כתובת האימייל",
                                     labelStyle:
-                                        new TextStyle(color: Colors.white),
+                                    new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white),
+                                      BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -74,10 +75,10 @@ class _SignUpState extends State<SignUp> {
                                   decoration: new InputDecoration(
                                     labelText: "שם",
                                     labelStyle:
-                                        new TextStyle(color: Colors.white),
+                                    new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white),
+                                      BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -95,10 +96,10 @@ class _SignUpState extends State<SignUp> {
                                   decoration: new InputDecoration(
                                     labelText: "גיל",
                                     labelStyle:
-                                        new TextStyle(color: Colors.white),
+                                    new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white),
+                                      BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -116,10 +117,10 @@ class _SignUpState extends State<SignUp> {
                                   decoration: new InputDecoration(
                                     labelText: "מספר טלפון",
                                     labelStyle:
-                                        new TextStyle(color: Colors.white),
+                                    new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white),
+                                      BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -127,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                                       return 'הטלפון שלך חסר';
                                     }
                                   },
-                                  onSaved: (input) => _phone_number = input,
+                                  onSaved: (input) => _phoneNumber = input,
                                 ))),
                         Directionality(
                             textDirection: TextDirection.rtl,
@@ -137,10 +138,10 @@ class _SignUpState extends State<SignUp> {
                                   decoration: new InputDecoration(
                                     labelText: "סיסמא",
                                     labelStyle:
-                                        new TextStyle(color: Colors.white),
+                                    new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                          BorderSide(color: Colors.white),
+                                      BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -171,7 +172,7 @@ class _SignUpState extends State<SignUp> {
                                           decoration: new BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                                new BorderRadius.circular(9.0),
+                                            new BorderRadius.circular(9.0),
                                           ),
                                           child: new Text("הרשמה",
                                               style: new TextStyle(
@@ -192,14 +193,14 @@ class _SignUpState extends State<SignUp> {
       _formState.save();
       try {
         FirebaseUser user = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: _email, password: _password);
+            .createUserWithEmailAndPassword(email: _email.trim(), password: _password.trim());
         Firestore.instance.runTransaction((transaction) async {
           User u = new User(
-              phone_number: _phone_number,
+              phoneNumber: _phoneNumber,
               age: _age,
               name: _name,
               role: 'member',
-              email: _email);
+              email: _email.trim());
           await transaction.set(
               Firestore.instance.collection("users").document(user.uid),
               u.toJson());

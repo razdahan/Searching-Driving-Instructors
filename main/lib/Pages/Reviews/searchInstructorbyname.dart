@@ -18,8 +18,8 @@ class _ViewReviewState extends State<ViewReview> {
   AutoCompleteTextField search;
   GlobalKey<AutoCompleteTextFieldState<DrivingInstructor>> key =
   new GlobalKey();
-  bool InstructorNameValidator;
-  static List<DrivingInstructor> Inst = new List<DrivingInstructor>();
+  bool instructorNameValidator;
+  static List<DrivingInstructor> instructorList = new List<DrivingInstructor>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool loading = true;
 
@@ -28,16 +28,16 @@ class _ViewReviewState extends State<ViewReview> {
         .collection('DrivingInstructors')
         .getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
-    Inst = new List<DrivingInstructor>();
+    instructorList = new List<DrivingInstructor>();
 
     for (int i = 0; i < documents.length; i++) {
       DrivingInstructor d = new DrivingInstructor(
-          phoneNumber: documents[i].data['phone_number'],
+          phoneNumber: documents[i].data['phoneNumber'],
           name: documents[i].data['name'],
           price: documents[i].data['price'],
-          testArea: documents[i].data['test_area']);
+          testArea: documents[i].data['testArea']);
 
-      Inst.add(d);
+      instructorList.add(d);
     }
     if (mounted) {
       setState(() {
@@ -49,10 +49,12 @@ class _ViewReviewState extends State<ViewReview> {
 
   @override
   void initState() {
+
     getInstructors();
   }
 
   Widget row(DrivingInstructor d) {
+    print(d.testArea);
     return Container(
         decoration: new BoxDecoration(
 
@@ -93,12 +95,12 @@ class _ViewReviewState extends State<ViewReview> {
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
               title: Text("חפש את המורה",
-                  style: new TextStyle(color: Colors.white)),
-              backgroundColor: HexColor("#51C5EF"),
-              elevation: 0,
+                  style: new TextStyle(color: Colors.black)),
+              backgroundColor: Colors.white,
+              elevation: 10,
               centerTitle: true,
               iconTheme: IconThemeData(
-                color: Colors.white, //change your color here
+                color: Colors.black, //change your color here
               ),
             ),
             body: Container(
@@ -114,13 +116,17 @@ class _ViewReviewState extends State<ViewReview> {
                       children: <Widget>[
                         loading
                             ? LinearProgressIndicator()
-                            : Directionality(
+                            :Padding(
+                            padding:
+                            const EdgeInsets.only(left: 0, right: 0, top: 10.0),
+                       child: Directionality(
                             textDirection: TextDirection.rtl,
                             child: search =
                                 AutoCompleteTextField<DrivingInstructor>(
+                                  onFocusChanged: (hasFocus) {},
                                   clearOnSubmit: true,
                                   key: key,
-                                  suggestions: Inst,
+                                  suggestions: instructorList,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -147,34 +153,24 @@ class _ViewReviewState extends State<ViewReview> {
                                   itemBuilder: (context, item) {
                                     return row(item);
                                   },
-                                ))
+                                )))
                       ],
                     )))));
   }
 
-  void navigateToInstructorProfile(DrivingInstructor Instructor) {
+  void navigateToInstructorProfile(DrivingInstructor instructor) {
     FirebaseAuth.instance.currentUser().then((firebaseUser) {
-      if (firebaseUser == null) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InstructorProfile(
-                user: null,
-                instructor: Instructor,
-                userData: null,
-              ),
-            ));
-      } else {
+
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => InstructorProfile(
                 user: firebaseUser,
-                instructor: Instructor,
+                instructor: instructor,
                 userData:widget.userData ,
               ),
             ));
-      }
+
     });
   }
 }
