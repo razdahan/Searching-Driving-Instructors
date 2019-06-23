@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/main.dart';
-import 'package:main/Pages/Reviews/AddReview.dart';
-import 'package:main/Pages/Profile/EditReview.dart';
+import 'package:main/Pages/Reviews/EditReview.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 class Profile extends StatefulWidget {
   @override
@@ -29,6 +28,7 @@ class _ProfileState extends State<Profile> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => EditReview(
+                      fromProfile: true,
                       user: widget.user,
                       userData: widget.userData,
                       review: r,
@@ -68,7 +68,7 @@ class _ProfileState extends State<Profile> {
                   subtitle: Padding(
                     padding: const EdgeInsets.only(right: 10),
                     child: Text(
-                      r.text + '-' + r.authorName,
+                      r.text,
                       style: new TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 12,
@@ -82,77 +82,15 @@ class _ProfileState extends State<Profile> {
         ));
   }
 
-  Widget profileRow(BuildContext context,double avg) {
-    return new GestureDetector(
-        child: Container(
-            height: 1000,
-            child: Card(
-              elevation: 15.0,
-              child: ListView(children: [
-                Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ListTile(
-                      title: Row(children: <Widget>[
-
-                        Icon(
-                          Icons.account_circle,
-                          color: Colors.black,
-                          size: 40.0,
-                        ),
-
-                        Text(
-                          'דירוג ממוצע:',
-                          style: new TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 12,
-                              color: Colors.black),
-
-                        ),
-                        SmoothStarRating(
-                            allowHalfRating: false,
-                            starCount: 5,
-                            rating: avg,
-                            size: 20.0,
-                            color: HexColor("#51C5EF"),
-                            borderColor: Colors.black,
-                            spacing: 0.0)
-                      ]),
-
-
-                      subtitle:Row(
-                          children:<Widget>[
-
-
-
-
-
-                          ]
-                      ),
-
-                    )
-                )]),
-            )));
-  }
 
   void getReviews() async {
     final QuerySnapshot result = await Firestore.instance
         .collection('Reviews')
         .where('userId', isEqualTo: widget.user.uid)
         .getDocuments();
-    double sum = 0;
 
     final List<DocumentSnapshot> documents = result.documents;
     reviews = new List<GestureDetector>();
-    reviewsNumber=documents.length;
-    for (int i = 0; i < documents.length; i++) {
-      sum += documents[i].data['rating'];
-    }
-    double avg=0;
-    if (documents.length != 0)
-      avg = sum / documents.length;
-    else
-      avg = 0;
-    reviews.add(profileRow(context,avg));
     for (int i = 0; i < documents.length; i++) {
       reviews.add(reviewWidget(
           context,

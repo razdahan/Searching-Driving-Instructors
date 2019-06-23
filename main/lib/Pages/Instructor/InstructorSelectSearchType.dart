@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:main/main.dart';
-import 'package:main/Pages/Reviews/searchInstructorbyname.dart';
+import 'package:main/Pages/Instructor/SearchInstructorName.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/Pages/Reviews/menu.dart';
+import 'package:main/Pages/Instructor/InstructorSearchSort.dart';
 
 
 
@@ -120,7 +120,7 @@ class _InstructorSelectState extends State<InstructorSelect> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ViewReview(
+              builder: (context) => SearchInstructor(
                 user: firebaseUser,
                 userData:widget.userData,
               ),

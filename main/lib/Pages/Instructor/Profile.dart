@@ -39,110 +39,97 @@ class _InstructorProfileState extends State<InstructorProfile> {
                     fullscreenDialog: true));
         },
         child: Container(
-            height: 1000,
-            child: Card(
+          height: 1000,
+          child: Card(
               elevation: 15.0,
               child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: ListTile(
-                    title: Row(children: <Widget>[
-                      Icon(
-                        Icons.account_circle,
-                        color: Colors.black,
-                        size: 60.0,
-                      ),
-                      SmoothStarRating(
-                          allowHalfRating: false,
-                          starCount: 5,
-                          rating: r.rating,
-                          size: 20.0,
-                          color: HexColor("#51C5EF"),
-                          borderColor: Colors.black,
-                          spacing: 0.0)
-                    ]),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Text(
-                        r.text + '-' + r.authorName,
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 12,
-                            color: Colors.black),
-                      ),
+                textDirection: TextDirection.rtl,
+                child: ListTile(
+                  title: Row(children: <Widget>[
+                    Icon(
+                      Icons.account_circle,
+                      color: Colors.black,
+                      size: 60.0,
                     ),
-                    dense: true,
+                    Text(
+                      r.authorName,
+                      style: TextStyle(fontWeight: FontWeight.w900),
+                    ),
+                    SmoothStarRating(
+                        allowHalfRating: true,
+                        starCount: 5,
+                        rating: r.rating,
+                        size: 20.0,
+                        color: HexColor("#51C5EF"),
+                        borderColor: Colors.black,
+                        spacing: 0.0)
+                  ]),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Text(
+                      r.text,
+                      style: new TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 12,
+                          color: Colors.black),
+                    ),
                   ),
-                )
-              ),
-            ));
+                  dense: true,
+                ),
+              )),
+        ));
   }
 
-  Widget profileRow(BuildContext context,double avg) {
+  Widget profileRow(BuildContext context, double avg) {
     return new GestureDetector(
-        child: Container(
-            height: 1000,
-            child: Card(
-              elevation: 15.0,
-              child: ListView(children: [
-                Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: ListTile(
-                    title: Row(children: <Widget>[
-
-                      Icon(
-                        Icons.school,
-                        color: Colors.black,
-                        size: 40.0,
-                      ),
-
+        child: Card(
+      elevation: 15.0,
+      child: Center(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            Directionality(
+                textDirection: TextDirection.rtl,
+                child: Center(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
                       Text(
                         'דירוג ממוצע:',
                         style: new TextStyle(
                             fontWeight: FontWeight.w900,
-                            fontSize: 12,
+                            fontSize: 20,
                             color: Colors.black),
-
                       ),
                       SmoothStarRating(
-                          allowHalfRating: false,
+                          allowHalfRating: true,
                           starCount: 5,
                           rating: avg,
                           size: 20.0,
                           color: HexColor("#51C5EF"),
                           borderColor: Colors.black,
                           spacing: 0.0)
-                    ]),
-
-
-                    subtitle:Row(
-                        children:<Widget>[
-
-                          Text(
-                      ' מחיר:' + widget.instructor.price+'|',
-                        style: new TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 10,
-                            color: Colors.black),
-
-                      ),
-
-                          Text(
-                            ' אזור-טסטים:' + widget.instructor.testArea+'|',
-                            style: new TextStyle(
-                                fontWeight: FontWeight.w900,
-                                fontSize: 10,
-                                color: Colors.black),
-
-                          ),
-
-
-
-                        ]
-                    ),
-
-                )
-                )]),
-            )));
+                    ]))),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              Text(
+                ' מחיר:' + widget.instructor.price + '|',
+                style: new TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18,
+                    color: Colors.black),
+              ),
+              Text(
+                ' אזור-טסטים:' + widget.instructor.testArea,
+                style: new TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18,
+                    color: Colors.black),
+              ),
+            ]),
+          ])),
+    ));
   }
 
   void getInstructors() async {
@@ -159,12 +146,12 @@ class _InstructorProfileState extends State<InstructorProfile> {
     for (int i = 0; i < documents.length; i++) {
       sum += documents[i].data['rating'];
     }
-    double avg=0;
+    double avg = 0;
     if (documents.length != 0)
-       avg = sum / documents.length;
+      avg = sum / documents.length;
     else
-       avg = 0;
-    reviews.add(profileRow(context,avg));
+      avg = 0;
+    reviews.add(profileRow(context, avg));
     for (int i = 0; i < documents.length; i++) {
       reviews.add(reviewWidget(
           context,
@@ -199,7 +186,10 @@ class _InstructorProfileState extends State<InstructorProfile> {
         child: Scaffold(
             floatingActionButton: FloatingActionButton(
               backgroundColor: HexColor("#1895C2"),
-              child: Icon(Icons.add,color:Colors.white,),
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
               onPressed: () {
                 navigateToAddReview(context);
               },
@@ -211,19 +201,18 @@ class _InstructorProfileState extends State<InstructorProfile> {
               centerTitle: true,
               elevation: 10,
               iconTheme: IconThemeData(
-                color: Colors.black, //change your color here
+                color: Colors.black,
               ),
             ),
             body: loading
                 ? Container(
-                decoration: new BoxDecoration(
-                    gradient: new LinearGradient(
+                    decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
                       colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
                       begin: FractionalOffset.bottomCenter,
                       end: FractionalOffset.topCenter,
                     )),
-                child:LinearProgressIndicator()
-            )
+                    child: LinearProgressIndicator())
                 : Container(
                     decoration: new BoxDecoration(
                         gradient: new LinearGradient(
@@ -231,31 +220,26 @@ class _InstructorProfileState extends State<InstructorProfile> {
                       begin: FractionalOffset.bottomCenter,
                       end: FractionalOffset.topCenter,
                     )),
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 0, right: 0, top: 0.0),
-                        child: Container(
-                            alignment: Alignment.bottomCenter,
-                            child: GridView.count(
-                                childAspectRatio: 3,
-                                crossAxisCount: 1,
-                                mainAxisSpacing: 2,
-                                children: reviews))))));
+                    child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: GridView.count(
+                            childAspectRatio: 3,
+                            crossAxisCount: 1,
+                            mainAxisSpacing: 2,
+                            children: reviews)))));
   }
 
   void navigateToAddReview(BuildContext context) {
     FirebaseAuth.instance.currentUser().then((firebaseUser) {
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddReview(
-                      user: firebaseUser,
-                      instructor: widget.instructor,
-                      userData: widget.userData,
-                    ),
-                fullscreenDialog: true));
-
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddReview(
+                    user: firebaseUser,
+                    instructor: widget.instructor,
+                    userData: widget.userData,
+                  ),
+              fullscreenDialog: true));
     });
   }
 }

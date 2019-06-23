@@ -51,24 +51,25 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return new Scaffold(
+    return Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Container(
-        decoration: new BoxDecoration(
-            gradient: new LinearGradient(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
           colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
           begin: FractionalOffset.bottomCenter,
           end: FractionalOffset.topCenter,
         )),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Row(children: <Widget>[
+            Row(children: <Widget>[
               Expanded(
                   child: Padding(
-                      padding: EdgeInsets.only(
-                          left: 100.0, right: 100.0, top: ),
+                      padding: EdgeInsets.only(left: 100.0, right: 100.0),
                       child: Image.asset('assets/logo.png')))
             ]),
             new Row(
@@ -87,21 +88,21 @@ class MyHomePage extends StatelessWidget {
                                   builder: (context) => LoginPage(),
                                 ));
                           },
-                          child: new Container(
+                          child: Container(
                               alignment: Alignment.center,
                               height: 40.0,
-                              decoration: new BoxDecoration(
+                              decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: new BorderRadius.circular(9.0)),
-                              child: new Text("התחברות",
-                                  style: new TextStyle(
+                                  borderRadius: BorderRadius.circular(9.0)),
+                              child: Text("התחברות",
+                                  style: TextStyle(
                                       fontSize: 20.0, color: Colors.black))),
                         ),
                       )),
                 )
               ],
             ),
-            new Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
@@ -118,54 +119,61 @@ class MyHomePage extends StatelessWidget {
                                   builder: (context) => SignUp(),
                                 ));
                           },
-                          child: new Container(
+                          child: Container(
                               alignment: Alignment.center,
                               height: 40.0,
-                              decoration: new BoxDecoration(
+                              decoration: BoxDecoration(
                                   color: Colors.white,
-                                  borderRadius: new BorderRadius.circular(9.0)),
-                              child: new Text("הרשמה",
-                                  style: new TextStyle(
+                                  borderRadius: BorderRadius.circular(9.0)),
+                              child: Text("הרשמה",
+                                  style: TextStyle(
                                       fontSize: 20.0, color: Colors.black))),
                         ),
                       )),
                 )
               ],
             ),
-            new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: width / 2,
-                        right: 0.0,
-                        top: (height - height / 2 - 30) / 1.9),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Home(
-                                    user: null,
-                                    userData: null,
-                                  ),
-                            ));
-                      },
-                      child: new Container(
-                          color: Colors.transparent,
-                          alignment: Alignment.center,
-                          height: 40.0,
-                          child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: Text("כניסה ללא התחברות",
-                                  style: new TextStyle(
-                                      fontSize: 15.0, color: Colors.black)))),
-                    ),
-                  ),
-                )
-              ],
-            ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: width / 2,
+                            right: 0.0,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Home(
+                                          user: null,
+                                          userData: null,
+                                        ),
+                                  ));
+                            },
+                            child: Container(
+                                color: Colors.transparent,
+                                alignment: Alignment.center,
+                                height: 40.0,
+                                child: Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Text("כניסה ללא התחברות",
+                                        style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.black)))),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ]),
           ],
         ),
       ),
@@ -261,12 +269,9 @@ class _MyappState extends State<Myapp> {
     });
   }
 
-//TODO- ADD child: Card(
-//                  elevation: 5.0,
   @override
   void initState() {
     super.initState();
-
     getUser();
   }
 }
