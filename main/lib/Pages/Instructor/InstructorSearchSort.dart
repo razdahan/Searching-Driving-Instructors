@@ -49,7 +49,8 @@ class _MenuState extends State<Menu> {
                 textDirection: TextDirection.rtl,
                 child: Text(
                   "תוסף זה נמצא בפיתוח כרגע!",
-                  style: new TextStyle(fontSize: 50,fontWeight: FontWeight.w900),
+                  style:
+                      new TextStyle(fontSize: 50, fontWeight: FontWeight.w900),
                 ))
           ]),
         ));

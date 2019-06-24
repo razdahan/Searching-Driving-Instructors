@@ -227,23 +227,30 @@ class Home extends StatelessWidget {
                                             ]))),
                               ])))),
               Padding(
-                padding:EdgeInsets.only( top: height / 8),
-                child:Row(
-              
-                mainAxisAlignment: MainAxisAlignment.center,
-                
-                children: <Widget>[
-                  Text(setHeader()+' ' +userData.name.split(" ")[0],
-                  style:TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.white
-
-                  ) ,
-                  ),
-                ],
-              ))
+                  padding: EdgeInsets.only(top: height / 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      
+                    userData != null? Text(
+                        setHeader() + ' ' + userData.name.split(" ")[0],
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white),
+                      ):
+                      Text(
+                        setHeader(),
+                        style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.white),
+                      )
+                      ,
+                    ],
+                  ))
             ])));
   }
 

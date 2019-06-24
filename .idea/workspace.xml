@@ -1,38 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2731a6ff-8818-4e62-8b23-9966179a5803" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/android/app/src/main/res/drawable/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/assets/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/lib/Pages/Profile/EditReview.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/instructorSelect.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/menu.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/searchInstructorbyname.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Dargu.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Dargu.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/res/drawable/launch_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/main/android/app/src/main/res/drawable/launch_background.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/assets/index.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Instructor/AddInstructor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Instructor/AddInstructor.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Profile/MyProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Profile/MyProfile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Reviews/AddReview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/AddReview.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Reviews/EditReview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/EditReview.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Reviews/InstructorProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/InstructorProfile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Reviews/searchInstructor.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Reviews/searchInstructor.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Setup/SignIn.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Setup/SignIn.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/Pages/Setup/SignUp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/Pages/Setup/SignUp.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/main/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/main/pubspec.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="2731a6ff-8818-4e62-8b23-9966179a5803" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +25,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/lib/main.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="72" column="9" lean-forward="true" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+            <state relative-caret-position="52">
+              <caret line="57" column="30" lean-forward="true" selection-start-line="57" selection-start-column="30" selection-end-line="57" selection-end-column="30" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
               </folding>
@@ -111,18 +80,6 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main/lib/Pages/Reviews/searchInstructor.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="52" column="3" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
-              <folding>
-                <element signature="e#0#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -139,6 +96,9 @@
       <find>mes</find>
       <find>message</find>
     </findStrings>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -173,6 +133,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -190,8 +152,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -260,7 +220,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
+    <editor active="true" />
     <layout>
+      <window_info id="Resources Explorer" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.37636763" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
@@ -430,15 +392,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/lib/Pages/Reviews/InstructorProfile.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/main/lib/Pages/Reviews/InstructorProfile.dart" />
     <entry file="file://$PROJECT_DIR$/main/pubspec.lock">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-187">
@@ -450,6 +404,7 @@
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/main/assets/index.jpg" />
+    <entry file="file://$PROJECT_DIR$/main/lib/Pages/Reviews/searchInstructor.dart" />
     <entry file="file://$PROJECT_DIR$/main/android/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -491,20 +446,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/lib/Pages/Reviews/searchInstructor.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="52" column="3" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/lib/main.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="72" column="9" lean-forward="true" selection-start-line="72" selection-start-column="9" selection-end-line="72" selection-end-column="9" />
+        <state relative-caret-position="52">
+          <caret line="57" column="30" lean-forward="true" selection-start-line="57" selection-start-column="30" selection-end-line="57" selection-end-column="30" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
           </folding>

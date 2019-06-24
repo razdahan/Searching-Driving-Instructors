@@ -171,7 +171,6 @@ class _AddInstructorState extends State<AddInstructor> {
                                   },
                                   onSaved: (input) => _name = input,
                                 ))),
-
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
@@ -216,7 +215,6 @@ class _AddInstructorState extends State<AddInstructor> {
                                   },
                                   onSaved: (input) => _price = input,
                                 ))),
-
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

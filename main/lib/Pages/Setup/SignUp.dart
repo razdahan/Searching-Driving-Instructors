@@ -26,7 +26,8 @@ class _SignUpState extends State<SignUp> {
         child: Scaffold(
             resizeToAvoidBottomPadding: false,
             appBar: AppBar(
-              title: Text('הרשמה', style: new TextStyle(fontSize:25,color: Colors.black)),
+              title: Text('הרשמה',
+                  style: new TextStyle(fontSize: 25, color: Colors.black)),
               backgroundColor: Colors.white,
               elevation: 10,
               centerTitle: true,
@@ -35,13 +36,12 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
             body: Container(
-
                 decoration: new BoxDecoration(
                     gradient: new LinearGradient(
-                      colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
-                      begin: FractionalOffset.bottomCenter,
-                      end: FractionalOffset.topCenter,
-                    )),
+                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                  begin: FractionalOffset.bottomCenter,
+                  end: FractionalOffset.topCenter,
+                )),
                 child: Form(
                     key: _formKey,
                     child: ListView(
@@ -49,15 +49,16 @@ class _SignUpState extends State<SignUp> {
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
-                                padding: EdgeInsets.only(left:30,right:30,top: 5.0),
+                                padding: EdgeInsets.only(
+                                    left: 30, right: 30, top: 5.0),
                                 child: TextFormField(
                                   decoration: new InputDecoration(
                                     labelText: "כתובת האימייל",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -70,15 +71,16 @@ class _SignUpState extends State<SignUp> {
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
-                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                padding: EdgeInsets.only(
+                                    left: 30, right: 30, top: 25.0),
                                 child: TextFormField(
                                   decoration: new InputDecoration(
                                     labelText: "שם",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -91,15 +93,16 @@ class _SignUpState extends State<SignUp> {
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
-                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                padding: EdgeInsets.only(
+                                    left: 30, right: 30, top: 25.0),
                                 child: TextFormField(
                                   decoration: new InputDecoration(
                                     labelText: "גיל",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -112,15 +115,16 @@ class _SignUpState extends State<SignUp> {
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
-                                padding: EdgeInsets.only(left:30,right:30,top: 25.0),
+                                padding: EdgeInsets.only(
+                                    left: 30, right: 30, top: 25.0),
                                 child: TextFormField(
                                   decoration: new InputDecoration(
                                     labelText: "מספר טלפון",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -133,15 +137,16 @@ class _SignUpState extends State<SignUp> {
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
-                                padding: const EdgeInsets.only(left:30,right:30,top: 25.0),
+                                padding: const EdgeInsets.only(
+                                    left: 30, right: 30, top: 25.0),
                                 child: TextFormField(
                                   decoration: new InputDecoration(
                                     labelText: "סיסמא",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -172,7 +177,7 @@ class _SignUpState extends State<SignUp> {
                                           decoration: new BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                            new BorderRadius.circular(9.0),
+                                                new BorderRadius.circular(9.0),
                                           ),
                                           child: new Text("הרשמה",
                                               style: new TextStyle(
@@ -193,7 +198,8 @@ class _SignUpState extends State<SignUp> {
       _formState.save();
       try {
         FirebaseUser user = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: _email.trim(), password: _password.trim());
+            .createUserWithEmailAndPassword(
+                email: _email.trim(), password: _password.trim());
         Firestore.instance.runTransaction((transaction) async {
           User u = new User(
               phoneNumber: _phoneNumber,

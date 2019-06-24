@@ -13,11 +13,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String _email, _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool loading=false;
+  bool loading = false;
   void initState() {
     super.initState();
-    loading=false;
+    loading = false;
   }
+
   @override
   Widget build(BuildContext context) {
     return new Theme(
@@ -41,15 +42,15 @@ class _LoginPageState extends State<LoginPage> {
             body: Container(
                 decoration: new BoxDecoration(
                     gradient: new LinearGradient(
-                      colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
-                      begin: FractionalOffset.bottomCenter,
-                      end: FractionalOffset.topCenter,
-                    )),
+                  colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
+                  begin: FractionalOffset.bottomCenter,
+                  end: FractionalOffset.topCenter,
+                )),
                 child: Form(
                     key: _formKey,
                     child: ListView(
                       children: <Widget>[
-                        loading? new LinearProgressIndicator():new Row(),
+                        loading ? new LinearProgressIndicator() : new Row(),
                         Directionality(
                             textDirection: TextDirection.rtl,
                             child: Padding(
@@ -60,11 +61,11 @@ class _LoginPageState extends State<LoginPage> {
                                   decoration: new InputDecoration(
                                     labelText: "כתובת האימייל",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     fillColor: Colors.white,
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
@@ -84,27 +85,24 @@ class _LoginPageState extends State<LoginPage> {
                                   decoration: new InputDecoration(
                                     labelText: "סיסמא",
                                     labelStyle:
-                                    new TextStyle(color: Colors.white),
+                                        new TextStyle(color: Colors.white),
                                     fillColor: Colors.white,
                                     focusedBorder: UnderlineInputBorder(
                                       borderSide:
-                                      BorderSide(color: Colors.white),
+                                          BorderSide(color: Colors.white),
                                     ),
                                   ),
                                   validator: (input) {
                                     if (input.isEmpty) {
                                       return 'הסיסמא שלך חסרה';
                                     }
-                                    if (input.length<8) {
+                                    if (input.length < 8) {
                                       return 'הסיסמא שלך חייבת להיות יותר מ8 תווים';
                                     }
-
                                   },
                                   onSaved: (input) => _password = input,
                                   obscureText: true,
                                 ))),
-
-
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -115,11 +113,14 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Card(
                                     elevation: 15,
                                     child: GestureDetector(
-                                      onTap:(){
+                                      onTap: () {
                                         signIn();
-                                        setState(() {
-                                          loading=true;
-                                        });
+                                        final _formState =
+                                            _formKey.currentState;
+                                        if (_formState.validate())
+                                          setState(() {
+                                            loading = true;
+                                          });
                                       },
                                       child: new Container(
                                           alignment: Alignment.center,
@@ -127,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                                           decoration: new BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                            new BorderRadius.circular(9.0),
+                                                new BorderRadius.circular(9.0),
                                           ),
                                           child: new Text("התחברות",
                                               style: new TextStyle(
@@ -138,7 +139,6 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           ],
                         ),
-
                       ],
                     )))));
   }
@@ -152,10 +152,12 @@ class _LoginPageState extends State<LoginPage> {
     else
       return null;
   }
+
   Future<void> signIn() async {
     final _formState = _formKey.currentState;
     if (_formState.validate()) {
       _formState.save();
+
       FirebaseUser user;
 
       try {
@@ -163,37 +165,35 @@ class _LoginPageState extends State<LoginPage> {
             email: _email.trim(), password: _password.trim());
       } catch (error) {
         setState(() {
-          loading=false;
+          loading = false;
         });
         return showDialog(
             context: context,
             builder: (_) => AlertDialog(
-              title:    Directionality(
-                textDirection: TextDirection.rtl,
-                child:new Text("שגיאה"),
-              ),
-              content: new Text(
-                  "פרטי המשתמש שהזנת שגויים"),
-              actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-                new FlatButton(
-                  child:
-                  new Text("אוקיי"),
-                  onPressed: () {
-                    Navigator.of(
-                        context)
-                        .pop();
-                  },
-                ),
-              ],
-            ));
+                  title: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: new Text("שגיאה"),
+                  ),
+                  content: new Text("פרטי המשתמש שהזנת שגויים"),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("אוקיי"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ));
       }
 
-      if(user!=null) {
-        final DocumentSnapshot result =
-        await Firestore.instance.collection('users').document(user.uid).get();
+      if (user != null) {
+        final DocumentSnapshot result = await Firestore.instance
+            .collection('users')
+            .document(user.uid)
+            .get();
         setState(() {
-          loading=false;
+          loading = false;
         });
         User u = new User(
             phoneNumber: result.data['phoneNumber'],
@@ -205,8 +205,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    Home(
+                builder: (context) => Home(
                       user: user,
                       userData: u,
                     )));

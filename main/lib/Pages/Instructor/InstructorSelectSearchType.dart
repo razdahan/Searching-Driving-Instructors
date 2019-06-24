@@ -4,8 +4,6 @@ import 'package:main/Pages/Instructor/SearchInstructorName.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/Pages/Instructor/InstructorSearchSort.dart';
 
-
-
 class InstructorSelect extends StatefulWidget {
   @override
   _InstructorSelectState createState() => _InstructorSelectState();
@@ -26,8 +24,8 @@ class _InstructorSelectState extends State<InstructorSelect> {
         ),
         child: Scaffold(
             appBar: AppBar(
-              title:Text(" בחר אחת מהאופציות ",
-                  style: new TextStyle(color: Colors.black,fontSize: 16)),
+              title: Text(" בחר אחת מהאופציות ",
+                  style: new TextStyle(color: Colors.black, fontSize: 16)),
               backgroundColor: Colors.white,
               elevation: 10,
               centerTitle: true,
@@ -43,8 +41,11 @@ class _InstructorSelectState extends State<InstructorSelect> {
                   end: FractionalOffset.topCenter,
                 )),
                 child: Padding(
-                    padding:
-                         EdgeInsets.only(left: 0, right: 0, top:10,),
+                    padding: EdgeInsets.only(
+                      left: 0,
+                      right: 0,
+                      top: 10,
+                    ),
                     child: Container(
                         alignment: Alignment.bottomCenter,
                         child: GridView.count(
@@ -83,9 +84,11 @@ class _InstructorSelectState extends State<InstructorSelect> {
                               GestureDetector(
                                   onTap: () {
                                     //navigateToViewReview(context);
-                                    Navigator.push(context,  MaterialPageRoute(
-                                        builder: (context) => Menu()
-                                    ),);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Menu()),
+                                    );
                                   },
                                   child: Card(
                                       elevation: 15.0,
@@ -111,21 +114,19 @@ class _InstructorSelectState extends State<InstructorSelect> {
                                                           FontWeight.w800),
                                                 ))
                                           ]))),
-
                             ]))))));
   }
+
   void navigateToViewReview(BuildContext context) {
     FirebaseAuth.instance.currentUser().then((firebaseUser) {
-
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => SearchInstructor(
-                user: firebaseUser,
-                userData:widget.userData,
-              ),
+                    user: firebaseUser,
+                    userData: widget.userData,
+                  ),
               fullscreenDialog: true));
-
     });
   }
 }

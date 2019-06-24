@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:main/main.dart';
 import 'package:main/Pages/Reviews/EditReview.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+
 class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
@@ -20,21 +21,21 @@ class _ProfileState extends State<Profile> {
   List<TextEditingController> controllers = new List<TextEditingController>();
 
   bool loading = true;
-  var reviewsNumber=0;
+  var reviewsNumber = 0;
   Widget reviewWidget(BuildContext context, Review r) {
     return new GestureDetector(
         onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => EditReview(
-                      fromProfile: true,
-                      user: widget.user,
-                      userData: widget.userData,
-                      review: r,
-                      instructor: widget.instructor,
-                    ),
-                    fullscreenDialog: true));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditReview(
+                        fromProfile: true,
+                        user: widget.user,
+                        userData: widget.userData,
+                        review: r,
+                        instructor: widget.instructor,
+                      ),
+                  fullscreenDialog: true));
         },
         child: Container(
           height: 1000,
@@ -45,8 +46,7 @@ class _ProfileState extends State<Profile> {
                 child: ListTile(
                   title: Row(children: <Widget>[
                     Icon(
-                    Icons.school
-                    ,
+                      Icons.school,
                       color: Colors.black,
                       size: 60.0,
                     ),
@@ -57,13 +57,12 @@ class _ProfileState extends State<Profile> {
                         size: 20.0,
                         color: HexColor("#51C5EF"),
                         borderColor: Colors.black,
-                        spacing: 0.0)
-
-                 ,
-                    Text('מורה - ${r.instructorName}',style: new TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 12,
-                        color: Colors.black))
+                        spacing: 0.0),
+                    Text('מורה - ${r.instructorName}',
+                        style: new TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 12,
+                            color: Colors.black))
                   ]),
                   subtitle: Padding(
                     padding: const EdgeInsets.only(right: 10),
@@ -77,11 +76,9 @@ class _ProfileState extends State<Profile> {
                   ),
                   dense: true,
                 ),
-              )
-          ),
+              )),
         ));
   }
-
 
   void getReviews() async {
     final QuerySnapshot result = await Firestore.instance
@@ -100,8 +97,7 @@ class _ProfileState extends State<Profile> {
               rating: documents[i].data['rating'],
               text: documents[i].data['text'],
               reviewKey: documents[i].documentID,
-              userId:documents[i].data['userId']
-          )));
+              userId: documents[i].data['userId'])));
     }
     print(loading);
     setState(() {
@@ -125,7 +121,6 @@ class _ProfileState extends State<Profile> {
           primaryColorDark: Colors.white,
         ),
         child: Scaffold(
-
             appBar: AppBar(
               title: Text(widget.userData.name,
                   style: new TextStyle(color: Colors.black)),
@@ -138,33 +133,29 @@ class _ProfileState extends State<Profile> {
             ),
             body: loading
                 ? Container(
-                decoration: new BoxDecoration(
-                    gradient: new LinearGradient(
+                    decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
                       colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
                       begin: FractionalOffset.bottomCenter,
                       end: FractionalOffset.topCenter,
                     )),
-                child:LinearProgressIndicator()
-            )
+                    child: LinearProgressIndicator())
                 : Container(
-
-                decoration: new BoxDecoration(
-                    gradient: new LinearGradient(
+                    decoration: new BoxDecoration(
+                        gradient: new LinearGradient(
                       colors: [HexColor("#1895C2"), HexColor("#51C5EF")],
                       begin: FractionalOffset.bottomCenter,
                       end: FractionalOffset.topCenter,
                     )),
-                child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 0, right: 0, top: 0.0),
-                    child: Container(
-                        alignment: Alignment.bottomCenter,
-                        child: GridView.count(
-                            childAspectRatio: 3,
-                            crossAxisCount: 1,
-                            mainAxisSpacing: 2,
-                            children: reviews))))));
+                    child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 0, right: 0, top: 0.0),
+                        child: Container(
+                            alignment: Alignment.bottomCenter,
+                            child: GridView.count(
+                                childAspectRatio: 3,
+                                crossAxisCount: 1,
+                                mainAxisSpacing: 2,
+                                children: reviews))))));
   }
-
-
 }
